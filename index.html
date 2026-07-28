@@ -1576,120 +1576,133 @@ body,.panel,.address-search-panel,
 }
 
 
-/* Zoom buttons are intentionally removed; pinch and wheel zoom remain available */
-.leaflet-control-zoom{display:none!important}
+/* ===== FINAL MOBILE FIXES ===== */
+@media (max-width: 640px){
 
-/* ===== Clean address-search control ===== */
-.address-search-toggle{
-  width:52px!important;
-  height:52px!important;
-  min-height:52px!important;
-  border-radius:16px!important;
-  background:rgba(255,255,255,.94)!important;
-  color:#246bfd!important;
-  border:1px solid rgba(255,255,255,.92)!important;
-  box-shadow:0 8px 24px rgba(15,23,42,.20),0 2px 7px rgba(15,23,42,.10)!important;
-  backdrop-filter:blur(14px) saturate(145%);
-  -webkit-backdrop-filter:blur(14px) saturate(145%);
-}
-.address-search-toggle:hover{
-  background:#fff!important;
-  color:#155ee8!important;
-}
-.address-search-svg{
-  width:24px;
-  height:24px;
-  fill:none;
-  stroke:currentColor;
-  stroke-width:2.2;
-  stroke-linecap:round;
-  stroke-linejoin:round;
-}
-.search-icon{display:none!important}
-
-/* ===== More readable mobile object card ===== */
-@media(max-width:640px){
-  /* With zoom controls removed, no oversized empty area is needed */
-  .leaflet-popup-pane{
-    padding-top:68px!important;
+  /* Remove Leaflet +/- controls on phones */
+  .leaflet-control-zoom{
+    display:none!important;
   }
+
+  /* Remove the lower popup tip/strip and any extra bottom gap */
+  .leaflet-popup-tip-container,
+  .leaflet-popup-tip{
+    display:none!important;
+  }
+
   .leaflet-popup{
-    max-width:calc(100vw - 16px)!important;
+    margin-bottom:0!important;
+    max-width:calc(100vw - 12px)!important;
   }
+
   .leaflet-popup-content-wrapper{
-    max-height:calc(100vh - 88px)!important;
-    border-radius:15px!important;
+    max-height:calc(100dvh - 76px)!important;
+    border-radius:14px!important;
+    overflow:hidden!important;
   }
+
   .leaflet-popup-content{
-    width:min(92vw,380px)!important;
-    max-width:380px!important;
-    max-height:calc(100vh - 112px)!important;
-    margin:10px!important;
+    width:min(92vw, 370px)!important;
+    max-width:370px!important;
+    max-height:calc(100dvh - 96px)!important;
+    margin:8px!important;
     overflow-y:auto!important;
-    box-sizing:border-box;
+    overflow-x:hidden!important;
+    box-sizing:border-box!important;
+    overscroll-behavior:contain;
+    scrollbar-width:none!important;
+    -ms-overflow-style:none!important;
   }
 
-  /* Header: readable text, compact photo */
+  .leaflet-popup-content::-webkit-scrollbar{
+    width:0!important;
+    height:0!important;
+    display:none!important;
+  }
+
+  /* No artificial reserved area under/over the popup */
+  .leaflet-popup-pane{
+    padding-top:62px!important;
+    padding-bottom:0!important;
+    box-sizing:border-box!important;
+  }
+
+  /* Compact but readable card */
   .compact-card-head{
-    grid-template-columns:minmax(0,1fr) 104px!important;
-    gap:10px!important;
-    padding:1px 0 10px!important;
-  }
-  .compact-header-photo{
-    width:104px!important;
-    height:112px!important;
-    border-radius:10px!important;
-  }
-  .compact-card-head .classic-card-title{
-    font-size:16px!important;
-    line-height:1.25!important;
-  }
-  .compact-card-head .classic-card-subtitle{
-    margin-top:5px!important;
-    font-size:12.5px!important;
-    line-height:1.4!important;
-    font-weight:600!important;
-  }
-  .favorite-under-address{
-    width:100%!important;
-    min-height:34px!important;
-    margin-top:8px!important;
-    padding:6px 8px!important;
-    font-size:11.5px!important;
-    justify-content:center!important;
-    box-sizing:border-box;
+    grid-template-columns:minmax(0,1fr) 96px!important;
+    gap:8px!important;
+    padding:0 0 8px!important;
   }
 
-  /* Readable information rows */
-  .classic-info-list{
-    border-radius:11px!important;
+  .compact-header-photo{
+    width:96px!important;
+    height:102px!important;
+    border-radius:9px!important;
   }
-  .classic-info-row{
-    grid-template-columns:104px minmax(0,1fr)!important;
-    gap:9px!important;
-    min-height:38px!important;
-    padding:8px 9px!important;
-    align-items:center!important;
+
+  .compact-card-head .classic-card-topline{
+    margin-bottom:5px!important;
   }
-  .classic-info-label{
+
+  .classic-card-id{
+    padding:3px 7px!important;
+    font-size:10px!important;
+  }
+
+  .compact-card-head .classic-card-title{
+    font-size:15px!important;
+    line-height:1.2!important;
+  }
+
+  .compact-card-head .classic-card-subtitle{
+    margin-top:4px!important;
     font-size:11.5px!important;
     line-height:1.3!important;
-    font-weight:720!important;
   }
+
+  .favorite-under-address{
+    min-height:30px!important;
+    margin-top:6px!important;
+    padding:5px 7px!important;
+    font-size:10.8px!important;
+    border-radius:8px!important;
+  }
+
+  .favorite-under-address .favorite-text-icon{
+    font-size:14px!important;
+  }
+
+  .classic-info-list{
+    border-radius:10px!important;
+  }
+
+  .classic-info-row{
+    grid-template-columns:90px minmax(0,1fr)!important;
+    gap:7px!important;
+    min-height:29px!important;
+    padding:5px 7px!important;
+  }
+
+  .classic-info-label{
+    font-size:10.5px!important;
+    line-height:1.2!important;
+  }
+
   .classic-info-value{
-    font-size:12.5px!important;
-    line-height:1.38!important;
-    font-weight:650!important;
+    font-size:11.3px!important;
+    line-height:1.25!important;
   }
+
   .classic-info-value-wrap{
     flex-direction:row!important;
     align-items:center!important;
-    gap:6px!important;
+    gap:5px!important;
   }
+
   .contract-status-badge{
-    min-height:22px!important;
-    padding:3px 7px!important;
-    font-size:10px!important;
+    min-height:19px!important;
+    padding:3px 5px!important;
+    font-size:9px!important;
   }
 
   .menu-toggle{
@@ -1697,30 +1710,52 @@ body,.panel,.address-search-panel,
   }
 }
 
-@media(max-width:390px){
+/* Extra compactness for short / narrow phones */
+@media (max-width:390px), (max-height:700px){
   .leaflet-popup-content{
-    width:min(91vw,350px)!important;
-    max-width:350px!important;
-    margin:8px!important;
+    width:min(91vw, 340px)!important;
+    max-width:340px!important;
+    max-height:calc(100dvh - 88px)!important;
+    margin:7px!important;
   }
+
   .compact-card-head{
-    grid-template-columns:minmax(0,1fr) 92px!important;
-    gap:8px!important;
-  }
-  .compact-header-photo{
-    width:92px!important;
-    height:100px!important;
-  }
-  .classic-info-row{
-    grid-template-columns:94px minmax(0,1fr)!important;
+    grid-template-columns:minmax(0,1fr) 84px!important;
     gap:7px!important;
-    padding:7px 8px!important;
   }
-  .classic-info-label{
+
+  .compact-header-photo{
+    width:84px!important;
+    height:90px!important;
+  }
+
+  .compact-card-head .classic-card-title{
+    font-size:14px!important;
+  }
+
+  .compact-card-head .classic-card-subtitle{
     font-size:11px!important;
   }
+
+  .classic-info-row{
+    grid-template-columns:82px minmax(0,1fr)!important;
+    min-height:27px!important;
+    padding:4px 6px!important;
+  }
+
+  .classic-info-label{
+    font-size:10px!important;
+  }
+
   .classic-info-value{
-    font-size:12px!important;
+    font-size:10.8px!important;
+  }
+
+  .favorite-under-address{
+    min-height:28px!important;
+    margin-top:5px!important;
+    padding:4px 6px!important;
+    font-size:10.4px!important;
   }
 }
 
@@ -1772,12 +1807,7 @@ body,.panel,.address-search-panel,
 </div>
 
 <button id="favoritesMapToggle" class="favorites-map-toggle map-action-button" type="button" aria-label="Показати обрані" title="Показати обрані"><span aria-hidden="true">★</span></button>
-<button id="addressSearchToggle" class="address-search-toggle map-action-button" type="button" aria-label="Пошук адреси" title="Пошук адреси">
-  <svg class="address-search-svg" viewBox="0 0 24 24" aria-hidden="true">
-    <circle cx="10.8" cy="10.8" r="6.3"></circle>
-    <path d="M15.5 15.5 21 21"></path>
-  </svg>
-</button>
+<button id="addressSearchToggle" class="address-search-toggle map-action-button" type="button" aria-label="Поиск адреса" title="Поиск адреса"><span class="search-icon" aria-hidden="true"></span></button>
 <div id="addressSearchBoxPanel" class="address-search-panel address-search-simple">
   <div class="smart-search-head">
     <strong>Пошук адреси</strong>
@@ -2148,7 +2178,7 @@ function keepPopupClearOfControls(){
   const popupEl=document.querySelector('.leaflet-popup');
   if(!popupEl)return;
   const rect=popupEl.getBoundingClientRect();
-  const safeTop=70;
+  const safeTop=64;
   const safeBottom=10;
   let dy=0;
   if(rect.top<safeTop)dy=rect.top-safeTop;
@@ -2159,6 +2189,33 @@ function keepPopupClearOfControls(){
 }
 map.on('popupopen',()=>requestAnimationFrame(keepPopupClearOfControls));
 window.addEventListener('resize',()=>requestAnimationFrame(keepPopupClearOfControls));
+
+
+function fitMobilePopupToViewport(){
+  if(window.innerWidth>640)return;
+  const popup=document.querySelector('.leaflet-popup');
+  if(!popup)return;
+
+  requestAnimationFrame(()=>{
+    const rect=popup.getBoundingClientRect();
+    const safeTop=64;
+    const safeBottom=6;
+    let shiftY=0;
+
+    if(rect.top<safeTop){
+      shiftY=rect.top-safeTop;
+    }else if(rect.bottom>window.innerHeight-safeBottom){
+      shiftY=rect.bottom-(window.innerHeight-safeBottom);
+    }
+
+    if(shiftY!==0){
+      map.panBy([0,shiftY],{animate:false});
+    }
+  });
+}
+
+map.on('popupopen',fitMobilePopupToViewport);
+window.addEventListener('resize',fitMobilePopupToViewport);
 
 render(points);map.fitBounds(L.latLngBounds(points.map(p=>[p.lat,p.lon])).pad(0.08));}
 function debounce(fn,wait=180){let t;return(...args)=>{clearTimeout(t);t=setTimeout(()=>fn(...args),wait);};}
