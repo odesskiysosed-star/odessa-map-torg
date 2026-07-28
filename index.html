@@ -1759,6 +1759,107 @@ body,.panel,.address-search-panel,
   }
 }
 
+
+/* Restored search button */
+.address-search-toggle{
+  left:12px!important;
+  bottom:18px!important;
+  width:50px!important;
+  height:50px!important;
+  border-radius:50%!important;
+  background:#1f6feb!important;
+  color:#fff!important;
+  border:0!important;
+  box-shadow:0 3px 14px rgba(0,0,0,.28)!important;
+}
+.search-icon{
+  display:block!important;
+  width:18px;
+  height:18px;
+  border:2.7px solid currentColor;
+  border-radius:50%;
+  position:relative;
+  box-sizing:border-box;
+}
+.search-icon::after{
+  content:"";
+  position:absolute;
+  width:9px;
+  height:2.7px;
+  border-radius:4px;
+  background:currentColor;
+  right:-7px;
+  bottom:-4px;
+  transform:rotate(45deg);
+}
+.address-search-svg{display:none!important;}
+
+
+/* Modern search button */
+.address-search-toggle{
+background:#fff!important;
+color:#246bfd!important;
+border:1px solid #dbe4f3!important;
+border-radius:16px!important;
+box-shadow:0 8px 24px rgba(15,23,42,.18)!important;
+}
+.address-search-svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.search-icon{display:none!important}
+
+/* Yellow favorites */
+.favorites-map-toggle{
+background:linear-gradient(145deg,#ffd75a,#f7b928)!important;
+color:#5b4300!important;
+border-color:#f2cf63!important;
+}
+.favorites-map-toggle span{
+color:#5b4300!important;
+}
+
+
+/* Refined search button */
+.address-search-toggle{
+background:rgba(255,255,255,.96)!important;
+border:1px solid rgba(220,228,240,.95)!important;
+border-radius:16px!important;
+box-shadow:0 10px 28px rgba(15,23,42,.20)!important;
+color:#2563eb!important;
+display:flex!important;
+align-items:center;
+justify-content:center;
+}
+.address-search-toggle:hover{transform:translateY(-1px)}
+.address-search-svg{display:block!important;width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.search-icon{display:none!important}
+
+/* Compact mobile side panel header */
+@media(max-width:640px){
+.panel{
+width:min(84vw,300px)!important;
+padding:10px!important;
+border-radius:14px 0 0 14px!important;
+}
+.panel-header{
+margin-bottom:4px!important;
+gap:6px!important;
+}
+.panel-header h2{
+font-size:16px!important;
+line-height:1.1!important;
+}
+.menu-close{
+width:32px!important;
+height:32px!important;
+min-height:32px!important;
+font-size:20px!important;
+border-radius:8px!important;
+}
+.favorites-top-card{
+margin:6px 0 10px!important;
+padding:8px!important;
+}
+}
+
 </style>
 </head>
 <body>
@@ -1807,7 +1908,12 @@ body,.panel,.address-search-panel,
 </div>
 
 <button id="favoritesMapToggle" class="favorites-map-toggle map-action-button" type="button" aria-label="Показати обрані" title="Показати обрані"><span aria-hidden="true">★</span></button>
-<button id="addressSearchToggle" class="address-search-toggle map-action-button" type="button" aria-label="Поиск адреса" title="Поиск адреса"><span class="search-icon" aria-hidden="true"></span></button>
+<button id="addressSearchToggle" class="address-search-toggle map-action-button" type="button" aria-label="Пошук адреси" title="Пошук адреси">
+<svg class="address-search-svg" viewBox="0 0 24 24" aria-hidden="true">
+<circle cx="11" cy="11" r="6.5"></circle>
+<path d="M16 16 L21 21"></path>
+</svg>
+</button>
 <div id="addressSearchBoxPanel" class="address-search-panel address-search-simple">
   <div class="smart-search-head">
     <strong>Пошук адреси</strong>
