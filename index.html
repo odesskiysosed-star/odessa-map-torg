@@ -18,12 +18,115 @@ html,body{height:100%;margin:0;font-family:Arial,sans-serif;overflow:hidden}
 .menu-close{width:38px;height:38px;border:0;border-radius:10px;background:#687078;color:white;font-size:24px}
 .panel label{display:block;margin:9px 0 3px;font-weight:bold}
 .panel input,.panel select{width:100%;box-sizing:border-box;min-height:42px;padding:8px;border:1px solid #bbb;border-radius:8px;font-size:16px}
-.stats{margin:8px 0 12px;padding:8px;background:#f3f5f7;border-radius:8px;line-height:1.5}
+.stats{display:none}
+.favorites-top-card{
+  margin:8px 0 14px;
+  padding:10px;
+  border-radius:12px;
+  background:linear-gradient(135deg,#f8f9fb,#eef2f7);
+  border:1px solid #d9dee7;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
+.favorites-top-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:9px;
+  font-size:14px;
+  font-weight:800;
+  color:#263238;
+}
+.favorites-top-actions{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:8px;
+}
+.favorites-top-actions .favorites-menu-btn{
+  min-height:44px;
+  border-radius:10px;
+  background:#687078;
+  box-shadow:none;
+}
+.favorites-top-actions .favorites-menu-btn.active{
+  background:#f2b705;
+  color:#332500;
+}
+.favorites-top-actions .clear-favorites-btn{
+  width:44px;
+  min-width:44px;
+  min-height:44px;
+  padding:0;
+  border-radius:10px;
+  font-size:19px;
+}
+.favorites-top-count{
+  display:inline-flex;
+  min-width:30px;
+  height:30px;
+  padding:0 9px;
+  align-items:center;
+  justify-content:center;
+  border-radius:999px;
+  background:#fff;
+  color:#1f2937;
+  border:1px solid #d5dbe4;
+  font-size:13px;
+  font-weight:900;
+}
 .btns{display:grid;grid-template-columns:1fr;gap:8px;margin-top:12px}
 button{min-height:42px;padding:9px 8px;border:0;border-radius:8px;background:#1f6feb;color:white;cursor:pointer;font-weight:bold}
 button.secondary{background:#687078}
 .panel-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.28);z-index:1050}
 .popup-title{font-weight:bold;font-size:15px;margin-bottom:6px}
+.popup-title-row{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-bottom:7px;
+}
+.popup-title-row .popup-title{
+  margin:0;
+  margin-right:auto;
+}
+.passport-link{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:34px;
+  padding:6px 10px;
+  border-radius:8px;
+  background:#1f6feb;
+  color:#fff !important;
+  font-size:13px;
+  font-weight:700;
+  line-height:1.15;
+  text-decoration:none !important;
+  white-space:nowrap;
+  box-sizing:border-box;
+}
+.passport-link:hover{background:#1859bd}
+.favorite-btn{
+  min-height:34px;
+  height:34px;
+  width:38px;
+  padding:0;
+  border-radius:8px;
+  background:#687078;
+  color:#fff;
+  font-size:21px;
+  line-height:1;
+}
+.favorite-btn.is-favorite{
+  background:#f2b705;
+  color:#332500;
+}
+@media(max-width:480px){
+  .popup-title-row{gap:6px}
+  .passport-link{padding:7px 9px;font-size:12px}
+}
+
 .popup-table{border-collapse:collapse;width:100%}
 .popup-table td{padding:4px 5px;border-bottom:1px solid #eee;vertical-align:top}
 .popup-table td:first-child{font-weight:bold;color:#444;white-space:nowrap}
@@ -39,6 +142,62 @@ button.secondary{background:#687078}
 #photoViewerImg{max-width:100vw;max-height:100vh;border-radius:8px;transform-origin:0 0;will-change:transform;user-select:none;-webkit-user-select:none;-webkit-user-drag:none;touch-action:none}
 #photoViewerClose{position:fixed;top:12px;right:12px;z-index:100001;width:48px;height:48px;min-height:48px;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.94);color:#111;font-size:34px;line-height:1}
 #photoViewerHint{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:100001;color:#fff;background:rgba(0,0,0,.55);padding:7px 12px;border-radius:16px;font-size:13px;white-space:nowrap;pointer-events:none}
+
+.favorites-map-toggle{
+  position:absolute;
+  left:12px;
+  bottom:78px;
+  z-index:1100;
+  width:50px;
+  height:50px;
+  min-height:50px;
+  padding:0;
+  border-radius:50%;
+  background:#687078;
+  color:#fff;
+  border:0;
+  font-size:25px;
+  line-height:1;
+  box-shadow:0 3px 14px rgba(0,0,0,.28);
+}
+.favorites-map-toggle.active{
+  background:#f2b705;
+  color:#332500;
+}
+.favorites-menu-btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  width:100%;
+  background:#687078;
+}
+.favorites-menu-btn.active{
+  background:#f2b705;
+  color:#332500;
+}
+.clear-favorites-btn{
+  width:100%;
+  background:#d62828 !important;
+  color:#fff !important;
+}
+.clear-favorites-btn:hover{
+  background:#b71c1c !important;
+}
+.favorite-count{
+  display:inline-flex;
+  min-width:22px;
+  height:22px;
+  padding:0 6px;
+  align-items:center;
+  justify-content:center;
+  border-radius:999px;
+  background:rgba(255,255,255,.92);
+  color:#333;
+  font-size:12px;
+  font-weight:800;
+  box-sizing:border-box;
+}
 
 .address-search-toggle{
   position:absolute;
@@ -116,22 +275,1194 @@ button.secondary{background:#687078}
   max-height:100vh !important;
 }
 
+
+/* ===== Modern map controls ===== */
+:root{
+  --control-size:52px;
+  --control-radius:17px;
+  --control-bg:rgba(255,255,255,.90);
+  --control-border:rgba(255,255,255,.72);
+  --control-shadow:0 8px 26px rgba(15,23,42,.20),0 2px 7px rgba(15,23,42,.12);
+  --control-text:#172033;
+  --accent:#246bfd;
+  --gold:#f7b928;
+}
+.menu-toggle,
+.map-action-button,
+.leaflet-control-zoom a{
+  -webkit-tap-highlight-color:transparent;
+  transition:transform .18s ease,box-shadow .18s ease,background .18s ease,color .18s ease,border-color .18s ease;
+}
+.menu-toggle{
+  top:14px;
+  right:14px;
+  width:var(--control-size);
+  height:var(--control-size);
+  min-height:var(--control-size);
+  padding:0;
+  border-radius:var(--control-radius);
+  background:var(--control-bg);
+  color:var(--control-text);
+  border:1px solid var(--control-border);
+  box-shadow:var(--control-shadow);
+  backdrop-filter:blur(14px) saturate(145%);
+  -webkit-backdrop-filter:blur(14px) saturate(145%);
+}
+.menu-toggle:hover,
+.map-action-button:hover,
+.leaflet-control-zoom a:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 30px rgba(15,23,42,.24),0 3px 9px rgba(15,23,42,.14);
+}
+.menu-toggle:active,
+.map-action-button:active,
+.leaflet-control-zoom a:active{
+  transform:scale(.94);
+}
+.hamburger-lines{
+  width:23px;
+  height:18px;
+  position:relative;
+  display:block;
+}
+.hamburger-lines span{
+  position:absolute;
+  left:0;
+  width:23px;
+  height:2.5px;
+  border-radius:4px;
+  background:currentColor;
+  transition:top .22s ease,transform .22s ease,opacity .18s ease;
+}
+.hamburger-lines span:nth-child(1){top:0}
+.hamburger-lines span:nth-child(2){top:7.7px}
+.hamburger-lines span:nth-child(3){top:15.4px}
+.menu-toggle.active .hamburger-lines span:nth-child(1){top:7.7px;transform:rotate(45deg)}
+.menu-toggle.active .hamburger-lines span:nth-child(2){opacity:0;transform:scaleX(.4)}
+.menu-toggle.active .hamburger-lines span:nth-child(3){top:7.7px;transform:rotate(-45deg)}
+
+.map-action-button{
+  left:14px;
+  width:var(--control-size);
+  height:var(--control-size);
+  min-height:var(--control-size);
+  padding:0;
+  border-radius:var(--control-radius);
+  background:var(--control-bg);
+  color:var(--control-text);
+  border:1px solid var(--control-border);
+  box-shadow:var(--control-shadow);
+  backdrop-filter:blur(14px) saturate(145%);
+  -webkit-backdrop-filter:blur(14px) saturate(145%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.favorites-map-toggle{
+  bottom:80px;
+  font-size:23px;
+}
+.favorites-map-toggle span{
+  display:block;
+  transform:scale(.96);
+  color:#6c7483;
+  text-shadow:none;
+  transition:transform .2s ease,color .2s ease,filter .2s ease;
+}
+.favorites-map-toggle.active{
+  background:linear-gradient(145deg,#ffd75a,#f7b928);
+  color:#4b3500;
+  border-color:rgba(255,220,100,.95);
+  box-shadow:0 9px 28px rgba(247,185,40,.42),0 2px 8px rgba(15,23,42,.15);
+}
+.favorites-map-toggle.active span{
+  color:#4b3500;
+  transform:scale(1.12);
+  filter:drop-shadow(0 2px 2px rgba(255,255,255,.45));
+}
+.address-search-toggle{
+  bottom:16px;
+  background:linear-gradient(145deg,#347cff,#1e61e7);
+  border-color:rgba(255,255,255,.42);
+  color:#fff;
+}
+.search-icon{
+  width:18px;
+  height:18px;
+  border:2.7px solid currentColor;
+  border-radius:50%;
+  position:relative;
+  box-sizing:border-box;
+}
+.search-icon::after{
+  content:"";
+  position:absolute;
+  width:9px;
+  height:2.7px;
+  border-radius:4px;
+  background:currentColor;
+  right:-7px;
+  bottom:-4px;
+  transform:rotate(45deg);
+  transform-origin:left center;
+}
+
+/* Leaflet zoom controls */
+.leaflet-control-zoom{
+  margin-top:78px!important;
+  margin-left:14px!important;
+  border:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.leaflet-control-zoom a{
+  width:46px!important;
+  height:46px!important;
+  line-height:43px!important;
+  border:1px solid var(--control-border)!important;
+  border-radius:15px!important;
+  background:var(--control-bg)!important;
+  color:var(--control-text)!important;
+  box-shadow:var(--control-shadow);
+  font-size:27px!important;
+  font-weight:400!important;
+  backdrop-filter:blur(14px) saturate(145%);
+  -webkit-backdrop-filter:blur(14px) saturate(145%);
+}
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out{
+  border-bottom:none!important;
+}
+.leaflet-control-zoom a.leaflet-disabled{
+  opacity:.42;
+  cursor:default;
+  transform:none!important;
+}
+
+/* Popup favorite button after removing passport */
+.popup-title-row{
+  flex-wrap:nowrap;
+  gap:10px;
+}
+.popup-title-row .popup-title{
+  min-width:0;
+}
+.favorite-btn{
+  flex:0 0 40px;
+  width:40px;
+  height:38px;
+  min-height:38px;
+  border-radius:12px;
+  background:#f2f4f7;
+  color:#626b79;
+  border:1px solid #dfe4eb;
+  box-shadow:0 3px 9px rgba(15,23,42,.10);
+  transition:transform .16s ease,background .16s ease,color .16s ease,box-shadow .16s ease;
+}
+.favorite-btn:hover{transform:translateY(-1px)}
+.favorite-btn:active{transform:scale(.92)}
+.favorite-btn.is-favorite{
+  background:linear-gradient(145deg,#ffd75a,#f7b928);
+  color:#493400;
+  border-color:#f2bd2e;
+  box-shadow:0 5px 14px rgba(247,185,40,.32);
+}
+
+/* Search panel follows the new controls */
+.address-search-panel{
+  left:14px;
+  bottom:80px;
+  border:1px solid rgba(255,255,255,.7);
+  border-radius:17px;
+  box-shadow:0 12px 34px rgba(15,23,42,.24);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+}
+
+@media(max-width:480px){
+  :root{--control-size:50px;--control-radius:16px}
+  .menu-toggle{top:11px;right:11px}
+  .map-action-button{left:11px}
+  .leaflet-control-zoom{margin-left:11px!important}
+}
+
+
+/* ===== Professional cards, smart search and performance UI ===== */
+:root{
+  color-scheme:light dark;
+  --ui-font:"Segoe UI",Inter,Roboto,Arial,sans-serif;
+  --ui-text:#172033;
+  --ui-secondary:#526075;
+  --ui-muted:#748095;
+  --ui-surface:#ffffff;
+  --ui-soft:#f4f7fb;
+  --ui-border:#dce3ed;
+  --ui-accent:#246bfd;
+  --ui-danger:#c92a2a;
+  --ui-warning:#b77900;
+  --ui-success:#16803b;
+}
+html,body,button,input,select,.leaflet-container,.leaflet-popup-content{
+  font-family:var(--ui-font);
+}
+body{color:var(--ui-text);font-size:15px;line-height:1.46;-webkit-font-smoothing:antialiased}
+.panel{background:var(--ui-surface);color:var(--ui-text)}
+.panel-header h2{color:var(--ui-text);font-size:20px;font-weight:750}
+.panel label{color:var(--ui-secondary);font-size:13px;font-weight:700}
+.panel input,.panel select{
+  background:var(--ui-surface);color:var(--ui-text);border-color:var(--ui-border);
+  font-size:15px;font-weight:500;
+}
+.panel input::placeholder,.address-search-panel input::placeholder{color:var(--ui-muted);opacity:1}
+.panel input:focus,.address-search-panel input:focus{
+  outline:3px solid rgba(36,107,253,.17);border-color:var(--ui-accent);
+}
+.favorites-top-card{background:var(--ui-soft);border-color:var(--ui-border)}
+.favorites-top-title,.favorites-top-count{color:var(--ui-text)}
+
+/* Modern popup card */
+.leaflet-popup-content-wrapper{
+  border-radius:20px;
+  background:var(--ui-surface);
+  color:var(--ui-text);
+  box-shadow:0 18px 48px rgba(15,23,42,.26);
+}
+.leaflet-popup-content{margin:14px!important;width:min(88vw,520px)!important;max-height:68vh;overflow:auto}
+.leaflet-popup-tip{background:var(--ui-surface)}
+.leaflet-popup-close-button{top:8px!important;right:8px!important;font-size:25px!important;color:var(--ui-secondary)!important}
+.object-card{min-width:0}
+.object-card-header{display:flex;gap:12px;align-items:flex-start;padding-right:28px}
+.object-card-title-wrap{min-width:0;flex:1}
+.object-card-id{display:inline-flex;padding:4px 8px;border-radius:999px;background:#eaf1ff;color:#1555bd;font-size:11px;font-weight:800}
+.object-card-address{margin:7px 0 3px;font-size:19px;line-height:1.22;font-weight:780;color:var(--ui-text)}
+.object-card-owner{font-size:13px;line-height:1.35;color:var(--ui-secondary)}
+.object-card .favorite-btn{flex:0 0 42px;width:42px;height:42px;min-height:42px}
+.object-card-badges{display:flex;flex-wrap:wrap;gap:7px;margin:13px 0}
+.object-badge{display:inline-flex;align-items:center;padding:6px 9px;border-radius:999px;background:var(--ui-soft);border:1px solid var(--ui-border);color:var(--ui-secondary);font-size:11px;font-weight:750}
+.object-status{border:0}
+.object-status.active{background:#e7f7ed;color:#146c32}
+.object-status.expiring{background:#fff3d7;color:#8a5b00}
+.object-status.expired{background:#fde8e8;color:#a51d1d}
+.object-card-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}
+.object-detail{padding:10px;border-radius:13px;background:var(--ui-soft);border:1px solid var(--ui-border);min-width:0}
+.object-detail-label{display:block;color:var(--ui-muted);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.045em;margin-bottom:3px}
+.object-detail-value{display:block;color:var(--ui-text);font-size:13px;font-weight:720;overflow-wrap:anywhere}
+.object-card-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+.object-action{min-height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;font-size:12px;font-weight:800;box-sizing:border-box}
+.object-route{background:var(--ui-accent);color:#fff!important}
+.object-photos{background:#273449;color:#fff}
+.object-card-empty{margin-top:11px;padding:11px;border-radius:12px;background:var(--ui-soft);color:var(--ui-muted);text-align:center;font-size:13px}
+.popup-gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.popup-photo-btn img{height:170px;border-radius:12px;border-color:var(--ui-border)}
+.photo-count-title{margin:13px 0 7px;font-weight:800;color:var(--ui-text)}
+
+/* Smart search */
+.address-search-panel{
+  width:min(92vw,430px);
+  display:none;
+  grid-template-columns:1fr;
+  gap:9px;
+  padding:12px;
+  background:rgba(255,255,255,.96);
+  border-color:var(--ui-border);
+}
+.address-search-panel.open{display:grid}
+.smart-search-head{display:flex;align-items:center;justify-content:space-between;color:var(--ui-text)}
+.smart-search-head strong{font-size:16px}
+.smart-search-close{width:36px;height:36px;min-height:36px;padding:0;font-size:22px}
+.smart-search-row{display:grid;grid-template-columns:1fr auto;gap:7px}
+.smart-search-row input{min-width:0}
+.quick-filters{display:flex;gap:6px;overflow-x:auto;padding:1px 0 3px;scrollbar-width:thin}
+.quick-filter{flex:0 0 auto;min-height:34px;padding:6px 10px;border-radius:999px;background:var(--ui-soft);color:var(--ui-secondary);border:1px solid var(--ui-border);font-size:11px}
+.quick-filter.active{background:var(--ui-accent);border-color:var(--ui-accent);color:#fff}
+.smart-search-suggestions{display:none;max-height:190px;overflow:auto;border:1px solid var(--ui-border);border-radius:13px;background:var(--ui-surface)}
+.smart-search-suggestions.open{display:block}
+.smart-result{display:block;width:100%;min-height:59px;padding:9px 11px;text-align:left;border:0;border-bottom:1px solid var(--ui-border);border-radius:0;background:var(--ui-surface);color:var(--ui-text)}
+.smart-result:last-child{border-bottom:0}
+.smart-result:hover,.smart-result.active{background:#edf4ff}
+.smart-result-main{display:block;font-size:13px;font-weight:760;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.smart-result-sub{display:block;margin-top:3px;color:var(--ui-secondary);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#addressSearchMsg{color:var(--ui-secondary);font-size:12px}
+
+/* Small performance indicator */
+.map-loading-badge{
+  position:absolute;left:50%;top:14px;transform:translateX(-50%);z-index:1090;
+  padding:7px 11px;border-radius:999px;background:rgba(255,255,255,.94);
+  color:#334155;box-shadow:0 5px 18px rgba(15,23,42,.18);font-size:12px;font-weight:750;
+  opacity:0;pointer-events:none;transition:opacity .18s ease;
+}
+.map-loading-badge.show{opacity:1}
+
+@media(max-width:520px){
+  .object-card-grid{grid-template-columns:1fr 1fr}
+  .object-card-address{font-size:17px}
+  .popup-gallery{grid-template-columns:1fr 1fr}
+  .popup-photo-btn img{height:145px}
+}
+
+
+
+/* ===== Light-only classic object card ===== */
+:root{
+  color-scheme:light;
+  --ui-text:#172033;
+  --ui-secondary:#4f5d72;
+  --ui-muted:#758095;
+  --ui-surface:#ffffff;
+  --ui-soft:#f6f8fb;
+  --ui-border:#dce3ec;
+  --ui-accent:#246bfd;
+}
+body,.panel,.address-search-panel,
+.leaflet-popup-content-wrapper,.leaflet-popup-tip,
+.smart-search-suggestions,.smart-result{
+  background-color:#fff;
+  color:var(--ui-text);
+}
+.panel input,.panel select,.address-search-panel input{
+  background:#fff;
+  color:var(--ui-text);
+}
+.leaflet-popup-content-wrapper{
+  border-radius:18px;
+  box-shadow:0 16px 44px rgba(15,23,42,.25);
+}
+.leaflet-popup-content{
+  margin:14px!important;
+  width:min(91vw,650px)!important;
+}
+.classic-object-card{min-width:0}
+.classic-card-head{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:2px 30px 11px 2px;
+  border-bottom:1px solid var(--ui-border);
+}
+.classic-card-head-main{min-width:0;flex:1}
+.classic-card-id{
+  display:inline-flex;
+  align-items:center;
+  padding:4px 8px;
+  margin-bottom:6px;
+  border-radius:999px;
+  background:#eaf1ff;
+  color:#1555bd;
+  font-size:11px;
+  font-weight:850;
+}
+.classic-card-title{
+  margin:0;
+  color:var(--ui-text);
+  font-size:18px;
+  line-height:1.28;
+  font-weight:780;
+  overflow-wrap:anywhere;
+}
+.classic-card-subtitle{
+  margin-top:4px;
+  color:var(--ui-secondary);
+  font-size:13px;
+  line-height:1.35;
+  font-weight:600;
+}
+.classic-object-card .favorite-btn{
+  flex:0 0 42px;
+  width:42px;
+  height:42px;
+  min-height:42px;
+}
+.classic-summary{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  padding:11px 0;
+}
+.classic-chip{
+  display:inline-flex;
+  align-items:center;
+  min-height:28px;
+  padding:5px 9px;
+  border:1px solid var(--ui-border);
+  border-radius:999px;
+  background:var(--ui-soft);
+  color:var(--ui-secondary);
+  font-size:11px;
+  font-weight:760;
+}
+.classic-chip.status-active{background:#e8f7ee;color:#146c32;border-color:#c8ead4}
+.classic-chip.status-expiring{background:#fff4dc;color:#895b00;border-color:#f1dda9}
+.classic-chip.status-expired{background:#fdeaea;color:#a51d1d;border-color:#f3caca}
+.classic-info-list{
+  overflow:hidden;
+  border:1px solid var(--ui-border);
+  border-radius:14px;
+  background:#fff;
+}
+.classic-info-row{
+  display:grid;
+  grid-template-columns:minmax(115px,36%) minmax(0,1fr);
+  gap:12px;
+  padding:9px 11px;
+  border-bottom:1px solid #edf0f4;
+  align-items:start;
+}
+.classic-info-row:last-child{border-bottom:0}
+.classic-info-label{
+  color:#526075;
+  font-size:12px;
+  font-weight:760;
+}
+.classic-info-value{
+  min-width:0;
+  color:#172033;
+  font-size:13px;
+  line-height:1.4;
+  font-weight:600;
+  overflow-wrap:anywhere;
+}
+.classic-card-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin:11px 0 2px;
+}
+.classic-card-actions .object-action{
+  min-height:42px;
+  border-radius:11px;
+}
+.classic-photo-heading{
+  margin:13px 0 7px;
+  font-size:13px;
+  font-weight:800;
+  color:#263449;
+}
+.popup-gallery{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+}
+.popup-photo-btn img{
+  height:185px;
+  border-radius:11px;
+  border:1px solid var(--ui-border);
+  background:#f3f5f8!important;
+}
+.object-card-empty{
+  margin-top:12px;
+  padding:12px;
+  border:1px dashed #cfd7e3;
+  border-radius:12px;
+  background:#f8fafc;
+  color:#748095;
+}
+
+/* Marker hover extract */
+.object-hover-tooltip{
+  min-width:220px;
+  max-width:310px;
+}
+.object-hover-owner{
+  color:#172033;
+  font-size:13px;
+  line-height:1.3;
+  font-weight:800;
+}
+.object-hover-address{
+  margin-top:4px;
+  color:#465267;
+  font-size:12px;
+  line-height:1.35;
+}
+.object-hover-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px 9px;
+  margin-top:7px;
+  padding-top:6px;
+  border-top:1px solid #e5e9ef;
+  color:#667085;
+  font-size:11px;
+  font-weight:650;
+}
+.leaflet-tooltip{
+  padding:9px 10px;
+  border:1px solid #d7dee8;
+  border-radius:11px;
+  background:#fff;
+  color:#172033;
+  box-shadow:0 8px 24px rgba(15,23,42,.20);
+}
+.leaflet-tooltip-top:before{border-top-color:#fff}
+.leaflet-tooltip-bottom:before{border-bottom-color:#fff}
+.leaflet-tooltip-left:before{border-left-color:#fff}
+.leaflet-tooltip-right:before{border-right-color:#fff}
+
+@media(max-width:520px){
+  .classic-info-row{grid-template-columns:105px minmax(0,1fr);gap:9px;padding:8px 9px}
+  .classic-card-title{font-size:16px}
+  .popup-photo-btn img{height:145px}
+}
+
+
+/* ===== Final classic card refinements ===== */
+.classic-card-head{padding-right:46px}
+.classic-card-topline{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:8px;
+}
+.classic-card-id{margin-bottom:0;flex:0 0 auto}
+.favorite-text-btn{
+  min-height:34px;
+  padding:6px 9px;
+  border-radius:10px;
+  background:transparent;
+  color:#526075;
+  border:1px solid transparent;
+  box-shadow:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  font-size:12px;
+  font-weight:760;
+  white-space:nowrap;
+}
+.favorite-text-btn:hover{
+  background:#f6f8fb;
+  border-color:#e1e6ed;
+  transform:none;
+  box-shadow:none;
+}
+.favorite-text-btn:active{transform:scale(.97)}
+.favorite-text-icon{font-size:19px;line-height:1;color:#7a8494}
+.favorite-text-btn.is-favorite{
+  color:#6b4c00;
+  background:#fff7d9;
+  border-color:#f1d675;
+}
+.favorite-text-btn.is-favorite .favorite-text-icon{color:#f2b705}
+.classic-summary{padding-top:10px}
+.classic-card-actions{display:none!important}
+
+/* Clean circular close button */
+.leaflet-popup-close-button{
+  top:10px!important;
+  right:10px!important;
+  width:34px!important;
+  height:34px!important;
+  padding:0!important;
+  border-radius:50%!important;
+  background:#f4f6f8!important;
+  color:#5d6878!important;
+  border:1px solid #dfe4ea!important;
+  box-shadow:0 3px 10px rgba(15,23,42,.12)!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  font-size:25px!important;
+  font-weight:400!important;
+  line-height:1!important;
+  text-align:center!important;
+  text-decoration:none!important;
+  transition:background .16s ease,color .16s ease,transform .16s ease,box-shadow .16s ease!important;
+}
+.leaflet-popup-close-button:hover{
+  background:#e9edf2!important;
+  color:#202938!important;
+  transform:scale(1.04);
+  box-shadow:0 5px 13px rgba(15,23,42,.16)!important;
+}
+.leaflet-popup-close-button:active{transform:scale(.94)}
+
+
+/* ===== Address-only search cleanup ===== */
+.address-search-simple{
+  width:min(90vw,360px);
+  grid-template-columns:1fr;
+  gap:10px;
+}
+.address-search-simple .smart-search-row{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:8px;
+}
+.address-search-simple #addressSearchInput{
+  min-width:0;
+}
+.address-search-simple #addressSearchRun{
+  min-width:84px;
+}
+.quick-filters,
+.smart-search-suggestions,
+.classic-summary{
+  display:none!important;
+}
+.address-search-simple #addressSearchMsg{
+  min-height:16px;
+}
+
+
+.leaflet-popup-close-button{display:none!important}
+.object-hover-tooltip{
+  width:max-content;
+  min-width:280px;
+  max-width:420px;
+  box-sizing:border-box;
+}
+.object-hover-owner{
+  max-width:100%;
+  white-space:normal;
+  overflow-wrap:anywhere;
+  font-size:14px;
+  line-height:1.38;
+  font-weight:800;
+}
+.object-hover-address{
+  max-width:100%;
+  white-space:normal;
+  overflow-wrap:anywhere;
+  margin-top:6px;
+  font-size:13px;
+  line-height:1.4;
+}
+.object-hover-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px 12px;
+  margin-top:9px;
+  padding-top:8px;
+  font-size:12px;
+  line-height:1.35;
+}
+.object-summary-tooltip.leaflet-tooltip{
+  max-width:none!important;
+  padding:11px 13px;
+}
+
+
+/* ===== Single-photo object card ===== */
+.classic-photo-heading{
+  display:none!important;
+}
+.popup-gallery{
+  display:none!important;
+}
+.single-photo-wrap{
+  margin-top:10px;
+  overflow:hidden;
+  border:1px solid #dce3ec;
+  border-radius:14px;
+  background:#f6f8fb;
+}
+.single-photo-btn{
+  display:block;
+  width:100%;
+  min-height:0;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  cursor:zoom-in;
+}
+.single-photo-btn img{
+  display:block;
+  width:100%;
+  height:190px;
+  object-fit:contain!important;
+  background:#f3f5f8!important;
+  border:0!important;
+  border-radius:0!important;
+  transition:transform .18s ease;
+}
+.single-photo-btn:hover img{
+  transform:scale(1.015);
+}
+@media(max-width:520px){
+  .single-photo-btn img{
+    height:150px;
+  }
+}
+
+
+/* ===== Compact GIS card with photo in header ===== */
+.leaflet-popup-content{
+  width:min(90vw,460px)!important;
+  margin:12px!important;
+}
+.leaflet-popup-content-wrapper{
+  border-radius:16px!important;
+}
+.classic-object-card{
+  width:100%;
+}
+.compact-card-head{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 176px;
+  gap:14px;
+  align-items:start;
+  padding:2px 0 12px!important;
+}
+.compact-card-head .classic-card-head-main{
+  min-width:0;
+}
+.compact-card-head .classic-card-topline{
+  margin-bottom:10px;
+}
+.compact-card-head .favorite-text-btn{
+  padding:5px 7px;
+  font-size:11px;
+}
+.compact-card-head .favorite-text-icon{
+  font-size:17px;
+}
+.compact-card-head .classic-card-title{
+  font-size:17px;
+  line-height:1.28;
+}
+.compact-card-head .classic-card-subtitle{
+  margin-top:6px;
+  font-size:12.5px;
+  line-height:1.4;
+}
+.compact-header-photo{
+  width:176px;
+  height:165px;
+  overflow:hidden;
+  border:1px solid var(--ui-border);
+  border-radius:12px;
+  background:#f3f5f8;
+  box-shadow:0 3px 10px rgba(15,23,42,.08);
+}
+.compact-header-photo-btn{
+  display:block;
+  width:100%;
+  height:100%;
+  min-height:0;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  cursor:zoom-in;
+}
+.compact-header-photo-btn img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain!important;
+  background:#f3f5f8!important;
+  border:0!important;
+  border-radius:0!important;
+  transition:transform .18s ease;
+}
+.compact-header-photo-btn:hover img{
+  transform:scale(1.025);
+}
+.compact-header-photo-empty{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#7b8798;
+  font-size:12px;
+  font-weight:700;
+  text-align:center;
+}
+.classic-info-list{
+  border-radius:12px;
+}
+.classic-info-row{
+  grid-template-columns:minmax(105px,34%) minmax(0,1fr);
+  gap:10px;
+  padding:7px 9px;
+}
+.classic-info-label{
+  font-size:11.5px;
+}
+.classic-info-value{
+  font-size:12.5px;
+}
+.single-photo-wrap{
+  display:none!important;
+}
+
+@media(max-width:560px){
+  .leaflet-popup-content{
+    width:min(88vw,390px)!important;
+    margin:11px!important;
+  }
+  .compact-card-head{
+    grid-template-columns:minmax(0,1fr) 132px;
+    gap:10px;
+  }
+  .compact-header-photo{
+    width:132px;
+    height:150px;
+  }
+  .compact-card-head .favorite-text-btn span:last-child{
+    display:none;
+  }
+  .compact-card-head .favorite-text-btn{
+    width:34px;
+    min-width:34px;
+    padding:0;
+  }
+  .compact-card-head .classic-card-title{
+    font-size:15px;
+  }
+  .classic-info-row{
+    grid-template-columns:98px minmax(0,1fr);
+    gap:8px;
+    padding:7px 8px;
+  }
+}
+
+@media(max-width:390px){
+  .compact-card-head{
+    grid-template-columns:minmax(0,1fr) 116px;
+  }
+  .compact-header-photo{
+    width:116px;
+    height:138px;
+  }
+}
+
+
+/* ===== Refined typography and contract status ===== */
+.classic-card-id{
+  background:#eef1f5!important;
+  color:#394252!important;
+  border:1px solid #e0e5eb;
+  font-size:11px!important;
+  font-weight:750!important;
+  letter-spacing:.01em;
+}
+.compact-card-head .classic-card-title{
+  color:#111827;
+  font-size:18px!important;
+  line-height:1.25!important;
+  font-weight:800!important;
+  letter-spacing:-.012em;
+}
+.compact-card-head .classic-card-subtitle{
+  color:#4b5565;
+  font-size:13px!important;
+  line-height:1.45!important;
+  font-weight:560!important;
+}
+.favorite-under-address{
+  width:fit-content;
+  max-width:100%;
+  min-height:36px!important;
+  margin-top:11px;
+  padding:7px 11px!important;
+  border:1px solid #d8e2f2!important;
+  border-radius:10px!important;
+  background:#f7faff!important;
+  color:#246bfd!important;
+  font-size:12px!important;
+  font-weight:750!important;
+  box-shadow:none!important;
+}
+.favorite-under-address:hover{
+  background:#edf4ff!important;
+  border-color:#bcd0f4!important;
+}
+.favorite-under-address.is-favorite{
+  background:#fff7dc!important;
+  border-color:#efd47b!important;
+  color:#6b4c00!important;
+}
+.favorite-under-address .favorite-text-icon{
+  color:currentColor!important;
+}
+.classic-info-label{
+  color:#606b7b!important;
+  font-size:11.5px!important;
+  font-weight:680!important;
+  letter-spacing:.005em;
+}
+.classic-info-value-wrap{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+.classic-info-value{
+  color:#1f2937!important;
+  font-size:12.8px!important;
+  line-height:1.42!important;
+  font-weight:620!important;
+}
+.classic-info-row.row-strong .classic-info-value{
+  color:#111827!important;
+  font-weight:760!important;
+}
+.contract-date-row{
+  position:relative;
+}
+.contract-date-row.is-active{
+  background:linear-gradient(90deg,#f4fbf6 0%,#ffffff 72%);
+}
+.contract-date-row.is-expired{
+  background:linear-gradient(90deg,#fff5f5 0%,#ffffff 72%);
+}
+.contract-date-row.is-active .classic-info-label,
+.contract-date-row.is-active .classic-info-value,
+.contract-term-row.is-active .classic-info-value{
+  color:#16803b!important;
+  font-weight:800!important;
+}
+.contract-date-row.is-expired .classic-info-label,
+.contract-date-row.is-expired .classic-info-value,
+.contract-term-row.is-expired .classic-info-value{
+  color:#c92a2a!important;
+  font-weight:800!important;
+}
+.contract-status-badge{
+  flex:0 0 auto;
+  display:inline-flex;
+  align-items:center;
+  min-height:24px;
+  padding:4px 8px;
+  border-radius:999px;
+  font-size:10.5px;
+  line-height:1;
+  font-weight:800;
+  white-space:nowrap;
+}
+.contract-status-badge.is-active{
+  color:#146c32;
+  background:#e8f7ee;
+  border:1px solid #c5e8d1;
+}
+.contract-status-badge.is-expired{
+  color:#a51d1d;
+  background:#fdeaea;
+  border:1px solid #f1c8c8;
+}
+.contract-term-row .classic-info-value{
+  font-weight:740!important;
+}
+.classic-info-row{
+  min-height:34px;
+  align-items:center!important;
+}
+@media(max-width:560px){
+  .compact-card-head .classic-card-title{
+    font-size:16px!important;
+  }
+  .favorite-under-address{
+    width:auto!important;
+    min-width:0!important;
+    padding:6px 9px!important;
+  }
+  .favorite-under-address span:last-child{
+    display:inline!important;
+  }
+  .classic-info-value-wrap{
+    align-items:flex-start;
+    flex-direction:column;
+    gap:5px;
+  }
+  .contract-status-badge{
+    align-self:flex-start;
+  }
+}
+
+
+/* ===== Final polished marker hover card ===== */
+.object-summary-tooltip.leaflet-tooltip{
+  width:auto!important;
+  max-width:none!important;
+  padding:0!important;
+  border:1px solid rgba(210,218,229,.96)!important;
+  border-radius:14px!important;
+  background:rgba(255,255,255,.98)!important;
+  box-shadow:0 14px 34px rgba(15,23,42,.22),0 3px 9px rgba(15,23,42,.10)!important;
+  overflow:hidden;
+}
+.object-hover-tooltip{
+  width:330px!important;
+  min-width:300px!important;
+  max-width:380px!important;
+  padding:13px 14px 12px;
+  box-sizing:border-box;
+}
+.object-hover-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:10px;
+  padding-bottom:10px;
+  border-bottom:1px solid #e8ecf1;
+}
+.object-hover-owner{
+  min-width:0;
+  color:#111827!important;
+  font-size:14px!important;
+  line-height:1.35!important;
+  font-weight:800!important;
+  white-space:normal!important;
+  overflow-wrap:anywhere!important;
+}
+.object-hover-status{
+  flex:0 0 auto;
+  display:inline-flex;
+  align-items:center;
+  min-height:22px;
+  padding:4px 7px;
+  border-radius:999px;
+  font-size:10px;
+  line-height:1;
+  font-weight:800;
+  white-space:nowrap;
+}
+.object-hover-status.is-active{
+  color:#146c32;
+  background:#e8f7ee;
+  border:1px solid #c8ead4;
+}
+.object-hover-status.is-expired{
+  color:#a51d1d;
+  background:#fdeaea;
+  border:1px solid #f1caca;
+}
+.object-hover-location{
+  display:grid;
+  gap:6px;
+  padding:10px 0 9px;
+}
+.object-hover-line{
+  display:grid;
+  grid-template-columns:20px minmax(0,1fr);
+  gap:7px;
+  align-items:start;
+  color:#465267;
+  font-size:12px;
+  line-height:1.42;
+}
+.object-hover-line b{
+  color:#263244;
+  font-weight:750;
+}
+.object-hover-icon{
+  width:20px;
+  height:20px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:6px;
+  background:#eef4ff;
+  color:#246bfd;
+  font-size:11px;
+  font-weight:850;
+}
+.object-hover-meta{
+  display:flex!important;
+  flex-wrap:wrap!important;
+  align-items:center;
+  gap:6px!important;
+  margin:0!important;
+  padding:9px 0 0!important;
+  border-top:1px solid #e8ecf1!important;
+}
+.object-hover-chip,
+.object-hover-date{
+  display:inline-flex;
+  align-items:center;
+  min-height:24px;
+  padding:4px 8px;
+  border-radius:999px;
+  box-sizing:border-box;
+  font-size:10.5px;
+  line-height:1;
+  font-weight:750;
+  white-space:nowrap;
+}
+.object-hover-chip{
+  color:#526075;
+  background:#f4f7fb;
+  border:1px solid #dce3ed;
+}
+.object-hover-date{
+  margin-left:auto;
+  color:#526075;
+  background:#f7f8fa;
+  border:1px solid #dfe4ea;
+}
+.object-hover-date.is-active{
+  color:#146c32;
+  background:#edf9f1;
+  border-color:#c9e9d4;
+}
+.object-hover-date.is-expired{
+  color:#a51d1d;
+  background:#fff0f0;
+  border-color:#f0cccc;
+}
+.object-summary-tooltip.leaflet-tooltip-top:before{
+  border-top-color:#fff!important;
+}
+.object-summary-tooltip.leaflet-tooltip-bottom:before{
+  border-bottom-color:#fff!important;
+}
+.object-summary-tooltip.leaflet-tooltip-left:before{
+  border-left-color:#fff!important;
+}
+.object-summary-tooltip.leaflet-tooltip-right:before{
+  border-right-color:#fff!important;
+}
+.contract-term-row{display:none!important}
+
+@media(max-width:480px){
+  .object-hover-tooltip{
+    width:min(82vw,330px)!important;
+    min-width:260px!important;
+  }
+  .object-hover-head{
+    gap:7px;
+  }
+  .object-hover-date{
+    margin-left:0;
+  }
+}
+
 </style>
 </head>
 <body>
 <div id="map"></div>
-<button id="menuToggle" class="menu-toggle" aria-label="Открыть меню">☰</button>
+<div id="mapLoadingBadge" class="map-loading-badge">Обновление объектов…</div>
+<button id="menuToggle" class="menu-toggle" aria-label="Открыть меню" aria-expanded="false">
+  <span class="hamburger-lines" aria-hidden="true">
+    <span></span><span></span><span></span>
+  </span>
+</button>
 <div id="sidePanel" class="panel">
   <div class="panel-header"><h2>Поиск объектов</h2><button id="menuClose" class="menu-close" aria-label="Закрыть">×</button></div>
-  <div class="stats">
-    Всего точек: <b>2761</b><br>
-    Строк из Excel: <b>2715</b><br>
-    Показано: <b id="visibleCount">2761</b>
+  <div class="favorites-top-card">
+    <div class="favorites-top-title">
+      <span>⭐ Обрані об’єкти</span>
+      <span id="favoritesTopCount" class="favorites-top-count">0</span>
+    </div>
+    <div class="favorites-top-actions">
+      <button id="favoritesMenuBtn" class="favorites-menu-btn" type="button" onclick="toggleFavoritesOnly()">
+        <span>☆ Показати обрані</span>
+        <span id="favoritesMenuCount" class="favorite-count">0</span>
+      </button>
+      <button id="clearFavoritesBtn" class="clear-favorites-btn" type="button"
+        onclick="clearAllFavorites()" title="Очистити обране" aria-label="Очистити обране">🗑</button>
+    </div>
   </div>
+  <span id="visibleCount" hidden>2761</span>
 
   <label>Контрагент</label><input id="filterContragent" placeholder="Например: Абілов">
   <label>Вид</label><input id="filterKind" placeholder="кіоск / група ТС">
-  <label>Район</label><input id="filterDistrict" placeholder="Приморський">
   <label>Адрес</label><input id="filterAddress" placeholder="улица / адрес">
   <label>№ дома</label><input id="filterHouse" placeholder="номер дома">
   <label>№ договора</label><input id="filterContract" placeholder="ТС-...">
@@ -149,11 +1480,17 @@ button.secondary{background:#687078}
   </div>
 </div>
 
-<button id="addressSearchToggle" class="address-search-toggle" type="button" aria-label="Поиск адреса">🔍</button>
-<div id="addressSearchBoxPanel" class="address-search-panel">
-  <input id="addressSearchInput" placeholder="Адрес в Одессе">
-  <button id="addressSearchRun" type="button">Найти</button>
-  <button id="addressSearchClose" type="button" class="secondary">×</button>
+<button id="favoritesMapToggle" class="favorites-map-toggle map-action-button" type="button" aria-label="Показати обрані" title="Показати обрані"><span aria-hidden="true">★</span></button>
+<button id="addressSearchToggle" class="address-search-toggle map-action-button" type="button" aria-label="Поиск адреса" title="Поиск адреса"><span class="search-icon" aria-hidden="true"></span></button>
+<div id="addressSearchBoxPanel" class="address-search-panel address-search-simple">
+  <div class="smart-search-head">
+    <strong>Пошук адреси</strong>
+    <button id="addressSearchClose" type="button" class="secondary smart-search-close" aria-label="Закрыть">×</button>
+  </div>
+  <div class="smart-search-row">
+    <input id="addressSearchInput" autocomplete="off" placeholder="Введіть адресу в Одесі">
+    <button id="addressSearchRun" type="button">Знайти</button>
+  </div>
   <div id="addressSearchMsg"></div>
 </div>
 
@@ -205,52 +1542,331 @@ function makeIconForPoint(p){
   });
 }
 
+
+const FAVORITES_STORAGE_KEY='omrTorgFavorites';
+
+function getFavorites(){
+  try{
+    const saved=JSON.parse(localStorage.getItem(FAVORITES_STORAGE_KEY)||'[]');
+    return new Set(Array.isArray(saved)?saved.map(String):[]);
+  }catch(e){
+    return new Set();
+  }
+}
+
+function saveFavorites(favorites){
+  try{
+    localStorage.setItem(FAVORITES_STORAGE_KEY,JSON.stringify([...favorites]));
+  }catch(e){}
+}
+
+function isFavorite(id){
+  return getFavorites().has(String(id));
+}
+
+function toggleFavorite(id,button){
+  const objectId=String(id);
+  const favorites=getFavorites();
+
+  if(favorites.has(objectId)){
+    favorites.delete(objectId);
+  }else{
+    favorites.add(objectId);
+  }
+
+  saveFavorites(favorites);
+  const active=favorites.has(objectId);
+
+  if(button){
+    button.classList.toggle('is-favorite',active);
+    button.textContent=active?'★':'☆';
+    button.title=active?'Видалити з обраного':'Додати в обране';
+    button.setAttribute('aria-label',button.title);
+    button.setAttribute('aria-pressed',active?'true':'false');
+  }
+
+  updateFavoritesControls();
+  if(favoritesOnly) applyFilters();
+}
+
+let favoritesOnly=false;
+
+function updateFavoritesControls(){
+  const count=getFavorites().size;
+  const mapButton=document.getElementById('favoritesMapToggle');
+  const menuButton=document.getElementById('favoritesMenuBtn');
+  const menuCount=document.getElementById('favoritesMenuCount');
+
+  if(mapButton){
+    mapButton.classList.toggle('active',favoritesOnly);
+    mapButton.textContent=favoritesOnly?'★':'☆';
+    mapButton.title=favoritesOnly?'Показати всі об’єкти':'Показати обрані';
+    mapButton.setAttribute('aria-label',mapButton.title);
+  }
+
+  if(menuButton){
+    menuButton.classList.toggle('active',favoritesOnly);
+    const label=menuButton.querySelector('span:first-child');
+    if(label) label.textContent=favoritesOnly?'★ Показуються обрані':'☆ Показати обрані';
+  }
+
+  if(menuCount) menuCount.textContent=String(count);
+
+  const topCount=document.getElementById('favoritesTopCount');
+  if(topCount) topCount.textContent=String(count);
+
+  const clearButton=document.getElementById('clearFavoritesBtn');
+  if(clearButton){
+    clearButton.disabled=count===0;
+    clearButton.style.opacity=count===0?'0.55':'1';
+    clearButton.style.cursor=count===0?'default':'pointer';
+  }
+}
+
+function toggleFavoritesOnly(){
+  favoritesOnly=!favoritesOnly;
+  updateFavoritesControls();
+  applyFilters();
+}
+
+function clearAllFavorites(){
+  const favorites=getFavorites();
+
+  if(favorites.size===0){
+    alert('Список обраних об’єктів уже порожній.');
+    return;
+  }
+
+  const confirmed=confirm(`Видалити всі обрані об’єкти (${favorites.size})?`);
+  if(!confirmed)return;
+
+  try{
+    localStorage.removeItem(FAVORITES_STORAGE_KEY);
+    popupCache.clear();
+  }catch(e){}
+
+  favoritesOnly=false;
+  updateFavoritesControls();
+
+  document.querySelectorAll('.favorite-btn').forEach(button=>{
+    button.classList.remove('is-favorite');
+    button.textContent='☆';
+    button.title='Додати в обране';
+    button.setAttribute('aria-label','Додати в обране');
+    button.setAttribute('aria-pressed','false');
+  });
+
+  applyFilters();
+}
+
+document.addEventListener('click',function(event){
+  const favoriteButton=event.target.closest('.favorite-btn, .favorite-text-btn');
+  if(!favoriteButton)return;
+  event.preventDefault();
+  event.stopPropagation();
+  const id=favoriteButton.dataset.objectId;
+  toggleFavorite(id,favoriteButton);
+  if(favoriteButton.classList.contains('favorite-text-btn')){
+    const favorite=isFavorite(id);
+    favoriteButton.classList.toggle('is-favorite',favorite);
+    favoriteButton.setAttribute('aria-pressed',favorite?'true':'false');
+    favoriteButton.title=favorite?'Видалити з обраного':'Додати в обране';
+    favoriteButton.setAttribute('aria-label',favoriteButton.title);
+    favoriteButton.innerHTML=`<span class="favorite-text-icon">${favorite?'★':'☆'}</span><span>${favorite?'В обраному':'Додати в обране'}</span>`;
+  }
+});
+
+function parseContractDate(value){
+  const m=String(value||'').match(/^(\d{2})\.(\d{2})\.(\d{4})$/);
+  return m?new Date(Number(m[3]),Number(m[2])-1,Number(m[1]),23,59,59):null;
+}
+function contractStatus(value){
+  const d=parseContractDate(value);
+  if(!d)return {key:'unknown',label:'Статус не визначено'};
+  const now=new Date();
+  if(d<now)return {key:'expired',label:'Прострочений'};
+  return {key:'active',label:'Діючий'};
+}
+function objectAddress(info,p){
+  return [info['Адрес'],info['№ дома']].filter(Boolean).join(', ')||`Объект ID ${p.id}`;
+}
+function routeUrl(p){
+  return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(p.lat+','+p.lon)}`;
+}
+const popupCache=new Map();
+function invalidatePopupCache(id){popupCache.delete(String(id));}
 function popupHtml(p){
+  const cacheKey=String(p.id)+'|'+(isFavorite(p.id)?'1':'0');
+  if(popupCache.has(cacheKey))return popupCache.get(cacheKey);
+
   const info=excelInfo[String(p.id)]||{};
   const imgs=imageMap[String(p.id)]||[];
+  const favorite=isFavorite(p.id);
+  const status=contractStatus(info['по']);
+  const statusClass=status.key==='expired'?'is-expired':(status.key==='active'?'is-active':'is-unknown');
+
+  const row=(label,value,extraClass='',badge='')=>`<div class="classic-info-row ${extraClass}">
+    <div class="classic-info-label">${escapeHtml(label)}</div>
+    <div class="classic-info-value-wrap">
+      <div class="classic-info-value">${escapeHtml(value||'—')}</div>
+      ${badge?`<span class="contract-status-badge ${statusClass}">${escapeHtml(badge)}</span>`:''}
+    </div>
+  </div>`;
+
   let gallery='';
-  if(imgs.length>0){
-    gallery+=`<div style="margin-top:10px;font-weight:bold;">Фото: ${imgs.length}</div><div class="popup-gallery">`;
-    imgs.slice(0,12).forEach((img,idx)=>{gallery+=`<button type="button" class="popup-photo-btn" data-photo-id="${escapeHtml(p.id)}" data-photo-index="${idx}"><img loading="lazy" src="${img}" alt="Фото объекта ${escapeHtml(p.id)}"></button>`;});
-    gallery+='</div>';
-  } else gallery='<div style="margin-top:10px;color:#888;">Фото отсутствуют</div>';
-  return `<div class="popup-title">Объект ID: ${escapeHtml(p.id)}</div>
-  <table class="popup-table">
-    <tr><td>ID</td><td>${escapeHtml(p.id)}</td></tr>
-    <tr><td>Контрагент</td><td>${escapeHtml(info['Контрагент']||'')}</td></tr>
-    <tr><td>Вид</td><td>${escapeHtml(info['Вид']||'')}</td></tr>
-    <tr><td>Район</td><td>${escapeHtml(info['Район']||'')}</td></tr>
-    <tr><td>Адрес</td><td>${escapeHtml(info['Адрес']||'')}</td></tr>
-    <tr><td>№ дома</td><td>${escapeHtml(info['№ дома']||'')}</td></tr>
-    <tr><td>№ договора</td><td>${escapeHtml(info['№ договора']||'')}</td></tr>
-    <tr><td>з</td><td>${escapeHtml(info['з']||'')}</td></tr>
-    <tr><td>по</td><td>${escapeHtml(info['по']||'')}</td></tr>
-    <tr><td>Метраж</td><td>${escapeHtml(info['Метраж']||'')}</td></tr>
-    <tr><td>Координаты</td><td>${p.lat}, ${p.lon}</td></tr>
-  </table>${gallery}`;
-}
+  if(imgs.length){
+    gallery=`<div class="compact-header-photo">
+      <button type="button" class="popup-photo-btn compact-header-photo-btn" data-photo-id="${escapeHtml(p.id)}" data-photo-index="0" aria-label="Відкрити фото об’єкта">
+        <img loading="lazy" decoding="async" src="${imgs[0]}" alt="Фото объекта ${escapeHtml(p.id)}">
+      </button>
+    </div>`;
+  }else{
+    gallery=`<div class="compact-header-photo compact-header-photo-empty">
+      <span>Фото відсутнє</span>
+    </div>`;
+  }
 
+  const card=`<article class="classic-object-card">
+    <header class="classic-card-head compact-card-head">
+      <div class="classic-card-head-main">
+        <div class="classic-card-topline">
+          <span class="classic-card-id">ID ${escapeHtml(p.id)}</span>
+        </div>
+        <h3 class="classic-card-title">${escapeHtml(info['Контрагент']||'Контрагент не вказаний')}</h3>
+        <div class="classic-card-subtitle">${escapeHtml(objectAddress(info,p))}</div>
+        <button type="button"
+          class="favorite-text-btn favorite-under-address${favorite?' is-favorite':''}"
+          data-object-id="${escapeHtml(p.id)}"
+          title="${favorite?'Видалити з обраного':'Додати в обране'}"
+          aria-label="${favorite?'Видалити з обраного':'Додати в обране'}"
+          aria-pressed="${favorite?'true':'false'}">
+          <span class="favorite-text-icon">${favorite?'★':'☆'}</span>
+          <span>${favorite?'В обраному':'Додати в обране'}</span>
+        </button>
+      </div>
+      ${gallery}
+    </header>
+
+    <section class="classic-info-list">
+      ${row('Контрагент',info['Контрагент'],'row-strong')}
+      ${row('Вид',info['Вид'])}
+      ${row('Адреса',info['Адрес'])}
+      ${row('№ будинку',info['№ дома'])}
+      ${row('№ договору',info['№ договора'],'row-strong')}
+      ${row('Діє з',info['з'])}
+      ${row('Діє до',info['по'],`contract-date-row ${statusClass}`,status.key==='unknown'?'':status.label)}
+      ${row('Площа',info['Метраж'] ? info['Метраж']+' м²' : '','row-strong')}
+    </section>
+  </article>`;
+
+  popupCache.set(cacheKey,card);
+  return card;
+}
+const markerById=new Map();
+let renderToken=0;
+function showMapLoading(show){
+  document.getElementById('mapLoadingBadge').classList.toggle('show',show);
+}
+function buildMarker(p){
+  const id=String(p.id);
+  let marker=markerById.get(id);
+  if(marker)return marker;
+  const info=excelInfo[id]||{};
+  marker=L.marker([p.lat,p.lon],{
+    icon:makeIconForPoint(p),
+    title:`${objectAddress(info,p)} · ID ${id}`,
+    riseOnHover:true
+  });
+  const hoverStatus=contractStatus(info['по']);
+  const hoverStatusClass=hoverStatus.key==='expired'?'is-expired':(hoverStatus.key==='active'?'is-active':'is-unknown');
+  const hoverHtml=`<div class="object-hover-tooltip">
+    <div class="object-hover-head">
+      <div class="object-hover-owner">${escapeHtml(info['Контрагент']||'Контрагент не вказаний')}</div>
+      ${hoverStatus.key!=='unknown'?`<span class="object-hover-status ${hoverStatusClass}">${escapeHtml(hoverStatus.label)}</span>`:''}
+    </div>
+    <div class="object-hover-location">
+      ${info['Адрес']?`<div class="object-hover-line"><span class="object-hover-icon">⌖</span><span><b>Адреса:</b> ${escapeHtml(info['Адрес'])}</span></div>`:''}
+      ${info['№ дома']?`<div class="object-hover-line"><span class="object-hover-icon">№</span><span><b>Будинок:</b> ${escapeHtml(info['№ дома'])}</span></div>`:''}
+    </div>
+    <div class="object-hover-meta">
+      ${info['Вид']?`<span class="object-hover-chip">${escapeHtml(info['Вид'])}</span>`:''}
+      ${info['Метраж']?`<span class="object-hover-chip">${escapeHtml(info['Метраж'])} м²</span>`:''}
+      ${info['по']?`<span class="object-hover-date ${hoverStatusClass}">Діє до ${escapeHtml(info['по'])}</span>`:''}
+    </div>
+  </div>`;
+  marker.bindTooltip(hoverHtml,{
+    permanent:false,
+    direction:'top',
+    opacity:.98,
+    offset:[0,-8],
+    className:'object-summary-tooltip'
+  });
+  marker.on('click',()=>marker.setPopupContent(popupHtml(p)));
+  marker.bindPopup(()=>popupHtml(p),{maxWidth:480,minWidth:300,closeButton:false,autoClose:true,closeOnClick:true});
+  markerById.set(id,marker);
+  return marker;
+}
 function render(list){
-  cluster.clearLayers(); currentMarkers=[];
-  list.forEach(p=>{const marker=L.marker([p.lat,p.lon],{icon:makeIconForPoint(p),title:`ID ${p.id}`}).bindTooltip(`ID ${p.id}`,{permanent:false,direction:'top'}).bindPopup(popupHtml(p),{maxWidth:620,minWidth:280});currentMarkers.push(marker);cluster.addLayer(marker);});
+  const token=++renderToken;
+  showMapLoading(true);
+  cluster.clearLayers();
+  currentMarkers=[];
   document.getElementById('visibleCount').textContent=list.length;
-}
 
+  let index=0;
+  const batchSize=250;
+  function addBatch(deadline){
+    if(token!==renderToken)return;
+    const batch=[];
+    let processed=0;
+    while(index<list.length && processed<batchSize && (!deadline || deadline.timeRemaining()>1 || deadline.didTimeout)){
+      const marker=buildMarker(list[index++]);
+      currentMarkers.push(marker);
+      batch.push(marker);
+      processed++;
+    }
+    if(batch.length)cluster.addLayers(batch);
+    if(index<list.length){
+      if('requestIdleCallback' in window)requestIdleCallback(addBatch,{timeout:70});
+      else setTimeout(()=>addBatch(null),0);
+    }else{
+      showMapLoading(false);
+    }
+  }
+  if('requestIdleCallback' in window)requestIdleCallback(addBatch,{timeout:70});
+  else setTimeout(()=>addBatch(null),0);
+}
 function val(id){return document.getElementById(id).value.trim().toLowerCase();}
 function includes(field,needle){return !needle || String(field||'').toLowerCase().includes(needle);}
 function applyFilters(){
-  const fc=val('filterContragent'), fk=val('filterKind'), fd=val('filterDistrict'), fa=val('filterAddress'), fh=val('filterHouse'), fcon=val('filterContract'), ff=val('filterFrom'), ft=val('filterTo'), far=val('filterArea');
-  const filtered=points.filter(p=>{const i=excelInfo[String(p.id)]||{}; return includes(i['Контрагент'],fc)&&includes(i['Вид'],fk)&&includes(i['Район'],fd)&&includes(i['Адрес'],fa)&&includes(i['№ дома'],fh)&&includes(i['№ договора'],fcon)&&includes(i['з'],ff)&&includes(i['по'],ft)&&includes(i['Метраж'],far);});
+  const fc=val('filterContragent'), fk=val('filterKind'), fa=val('filterAddress'), fh=val('filterHouse'), fcon=val('filterContract'), ff=val('filterFrom'), ft=val('filterTo'), far=val('filterArea');
+  const favorites=getFavorites();
+  const filtered=points.filter(p=>{const i=excelInfo[String(p.id)]||{}; return (!favoritesOnly||favorites.has(String(p.id)))&&includes(i['Контрагент'],fc)&&includes(i['Вид'],fk)&&includes(i['Адрес'],fa)&&includes(i['№ дома'],fh)&&includes(i['№ договора'],fcon)&&includes(i['з'],ff)&&includes(i['по'],ft)&&includes(i['Метраж'],far);});
   render(filtered);
   if(filtered.length>0) map.fitBounds(L.latLngBounds(filtered.map(p=>[p.lat,p.lon])).pad(0.08));
 }
-function resetFilters(){['filterContragent','filterKind','filterDistrict','filterAddress','filterHouse','filterContract','filterFrom','filterTo','filterArea'].forEach(id=>document.getElementById(id).value='');render(points);map.fitBounds(L.latLngBounds(points.map(p=>[p.lat,p.lon])).pad(0.08));}
-['filterContragent','filterKind','filterDistrict','filterAddress','filterHouse','filterContract','filterFrom','filterTo','filterArea'].forEach(id=>document.getElementById(id).addEventListener('input',applyFilters));
+function resetFilters(){['filterContragent','filterKind','filterAddress','filterHouse','filterContract','filterFrom','filterTo','filterArea'].forEach(id=>document.getElementById(id).value='');favoritesOnly=false;updateFavoritesControls();map.on('click',()=>map.closePopup());
+render(points);map.fitBounds(L.latLngBounds(points.map(p=>[p.lat,p.lon])).pad(0.08));}
+function debounce(fn,wait=180){let t;return(...args)=>{clearTimeout(t);t=setTimeout(()=>fn(...args),wait);};}
+const debouncedApplyFilters=debounce(applyFilters,180);
+['filterContragent','filterKind','filterAddress','filterHouse','filterContract','filterFrom','filterTo','filterArea'].forEach(id=>document.getElementById(id).addEventListener('input',debouncedApplyFilters));
 
 const sidePanel=document.getElementById('sidePanel'), menuToggle=document.getElementById('menuToggle'), menuClose=document.getElementById('menuClose'), panelBackdrop=document.getElementById('panelBackdrop');
-function openMenu(){sidePanel.classList.add('open');panelBackdrop.style.display='block';}
-function closeMenu(){sidePanel.classList.remove('open');panelBackdrop.style.display='none';}
+function openMenu(){
+  sidePanel.classList.add('open');
+  panelBackdrop.style.display='block';
+  menuToggle.classList.add('active');
+  menuToggle.setAttribute('aria-expanded','true');
+}
+function closeMenu(){
+  sidePanel.classList.remove('open');
+  panelBackdrop.style.display='none';
+  menuToggle.classList.remove('active');
+  menuToggle.setAttribute('aria-expanded','false');
+}
 menuToggle.addEventListener('click',openMenu); menuClose.addEventListener('click',closeMenu); panelBackdrop.addEventListener('click',closeMenu);
+document.getElementById('favoritesMapToggle').addEventListener('click',toggleFavoritesOnly);
+updateFavoritesControls();
 
 const photoViewer=document.getElementById('photoViewer'), photoStage=document.getElementById('photoStage'), photoViewerImg=document.getElementById('photoViewerImg'), photoViewerClose=document.getElementById('photoViewerClose');
 let photoScale=1,photoX=0,photoY=0,activePointers=new Map(),lastCenter=null,lastDistance=0;
@@ -272,78 +1888,87 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeMenu();closePh
 
 
 let addressSearchMarker=null;
+const addressInput=document.getElementById('addressSearchInput');
+const addressMsg=document.getElementById('addressSearchMsg');
 
 function openAddressSearch(){
   document.getElementById('addressSearchBoxPanel').classList.add('open');
-  document.getElementById('addressSearchInput').focus();
+  addressInput.focus();
 }
-
 function closeAddressSearch(){
   document.getElementById('addressSearchBoxPanel').classList.remove('open');
 }
-
 async function runOdessaAddressSearch(){
-  const input=document.getElementById('addressSearchInput');
-  const msg=document.getElementById('addressSearchMsg');
-  const q=input.value.trim();
+  const q=addressInput.value.trim();
+  if(!q){
+    addressMsg.textContent='Введіть адресу.';
+    return;
+  }
 
-  if(!q){msg.textContent='Введите адрес в Одессе.';return;}
-
-  msg.textContent='Ищу только в пределах Одессы...';
+  addressMsg.textContent='Шукаю адресу в Одесі…';
 
   const clean=q
     .replace(/,\s*(украина|україна|ukraine).*$/i,'')
     .replace(/,\s*(одесса|одеса|odessa|odesa).*$/i,'');
 
-  const query=clean+', Одеса, Одеська міська громада, Одеська область, Україна';
-
   const params=new URLSearchParams({
     format:'json',
-    limit:'8',
+    limit:'5',
     addressdetails:'1',
     countrycodes:'ua',
     bounded:'1',
     viewbox:'30.5900,46.5700,30.8500,46.3300',
-    q:query
+    q:clean+', Одеса, Одеська область, Україна'
   });
 
   try{
-    const r=await fetch('https://nominatim.openstreetmap.org/search?'+params.toString(),{headers:{'Accept':'application/json'}});
-    const results=await r.json();
+    const response=await fetch(
+      'https://nominatim.openstreetmap.org/search?'+params.toString(),
+      {headers:{Accept:'application/json'}}
+    );
+    if(!response.ok)throw new Error('Search failed');
 
-    const filtered=(results||[]).filter(x=>{
-      const lat=Number(x.lat), lon=Number(x.lon);
-      const name=(x.display_name||'').toLowerCase();
-      return lat>=46.33&&lat<=46.57&&lon>=30.59&&lon<=30.85&&(name.includes('одеса')||name.includes('odesa')||name.includes('одесса'));
+    const results=await response.json();
+    const best=(results||[]).find(item=>{
+      const lat=Number(item.lat);
+      const lon=Number(item.lon);
+      return lat>=46.33&&lat<=46.57&&lon>=30.59&&lon<=30.85;
     });
 
-    if(!filtered.length){
-      msg.textContent='В Одессе адрес не найден. Уточни улицу и номер дома.';
+    if(!best){
+      addressMsg.textContent='Адресу в Одесі не знайдено.';
       return;
     }
 
-    const best=filtered[0];
-    const lat=Number(best.lat), lon=Number(best.lon);
+    const lat=Number(best.lat);
+    const lon=Number(best.lon);
 
-    if(addressSearchMarker) map.removeLayer(addressSearchMarker);
+    if(addressSearchMarker)map.removeLayer(addressSearchMarker);
 
-    addressSearchMarker=L.marker([lat,lon],{title:'Найденный адрес'})
+    addressSearchMarker=L.marker([lat,lon],{title:'Знайдена адреса'})
       .addTo(map)
-      .bindPopup(`<b>Адрес в Одессе</b><br>${escapeHtml(best.display_name)}`)
+      .bindPopup(`<b>Знайдена адреса</b><br>${escapeHtml(best.display_name)}`)
       .openPopup();
 
-    map.setView([lat,lon],17);
-    msg.textContent='Найдено: '+best.display_name;
-  }catch(e){
-    msg.textContent='Ошибка поиска. Для поиска адреса нужен интернет.';
+    map.setView([lat,lon],17,{animate:true});
+    addressMsg.textContent='Знайдено: '+best.display_name;
+  }catch(error){
+    addressMsg.textContent='Не вдалося виконати пошук. Перевірте підключення до інтернету.';
   }
 }
+
+addressInput.addEventListener('keydown',event=>{
+  if(event.key==='Enter'){
+    event.preventDefault();
+    runOdessaAddressSearch();
+  }else if(event.key==='Escape'){
+    closeAddressSearch();
+  }
+});
 
 document.getElementById('addressSearchToggle').addEventListener('click',openAddressSearch);
 document.getElementById('addressSearchClose').addEventListener('click',closeAddressSearch);
 document.getElementById('addressSearchRun').addEventListener('click',runOdessaAddressSearch);
-document.getElementById('addressSearchInput').addEventListener('keydown',e=>{if(e.key==='Enter')runOdessaAddressSearch();});
-
 render(points);
 map.fitBounds(L.latLngBounds(points.map(p=>[p.lat,p.lon])).pad(0.08));
 </script>
