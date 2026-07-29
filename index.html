@@ -3090,6 +3090,178 @@ background:#246bfd!important;
 transform:translateY(-2px)!important;
 }
 
+
+/* ===== FINAL FIX: FAVORITES BUTTON + FULL MOBILE MENU ===== */
+
+/* Favorites button: white surface, clearly visible blue star */
+.favorites-control,
+.favorites-control .favorites-map-toggle{
+  width:52px!important;
+  height:52px!important;
+}
+
+.favorites-control .favorites-map-toggle,
+.favorites-control .favorites-map-toggle.active,
+.favorites-control .favorites-map-toggle.panel-open{
+  position:relative!important;
+  inset:auto!important;
+  min-width:52px!important;
+  min-height:52px!important;
+  padding:0!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  overflow:visible!important;
+  border-radius:16px!important;
+  background:#ffffff!important;
+  color:#246bfd!important;
+  border:1px solid #d8e2f0!important;
+  box-shadow:
+    0 10px 28px rgba(15,23,42,.18),
+    0 2px 8px rgba(15,23,42,.09)!important;
+  backdrop-filter:blur(16px) saturate(150%)!important;
+  -webkit-backdrop-filter:blur(16px) saturate(150%)!important;
+}
+
+.favorites-button-star,
+.favorites-control-icon,
+.favorites-control .favorites-map-toggle > span:first-child{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:26px!important;
+  height:26px!important;
+  color:#246bfd!important;
+  background:transparent!important;
+  font-size:26px!important;
+  line-height:1!important;
+  opacity:1!important;
+  visibility:visible!important;
+  transform:none!important;
+  filter:none!important;
+  text-shadow:none!important;
+}
+
+.favorites-control .favorites-map-toggle:hover{
+  transform:translateY(-2px)!important;
+  border-color:#bdd0ef!important;
+  box-shadow:
+    0 13px 31px rgba(15,23,42,.22),
+    0 3px 9px rgba(15,23,42,.11)!important;
+}
+
+.favorites-control .favorites-map-toggle:active{
+  transform:scale(.94)!important;
+}
+
+/* Preserve red iPhone-style counter */
+.favorites-floating-count{
+  top:-7px!important;
+  right:-7px!important;
+  background:#ff3b30!important;
+  color:#fff!important;
+  border:2px solid #fff!important;
+  opacity:1!important;
+  visibility:visible!important;
+  z-index:5!important;
+}
+
+.favorites-floating-count.is-empty{
+  opacity:0!important;
+  visibility:hidden!important;
+}
+
+/* Mobile hamburger menu must fit the complete visible screen */
+@media(max-width:640px){
+  .panel{
+    position:fixed!important;
+    top:0!important;
+    right:0!important;
+    bottom:0!important;
+    width:min(94vw,360px)!important;
+    height:100dvh!important;
+    max-height:100dvh!important;
+    min-height:100dvh!important;
+    box-sizing:border-box!important;
+    padding:0!important;
+    margin:0!important;
+    border-radius:20px 0 0 20px!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    overscroll-behavior:contain!important;
+    -webkit-overflow-scrolling:touch!important;
+    scrollbar-width:thin!important;
+  }
+
+  .panel-header{
+    position:sticky!important;
+    top:0!important;
+    z-index:10!important;
+    padding-top:calc(15px + env(safe-area-inset-top))!important;
+    background:rgba(255,255,255,.98)!important;
+  }
+
+  .panel .btns{
+    position:sticky!important;
+    bottom:0!important;
+    z-index:10!important;
+    margin-top:18px!important;
+    padding-bottom:calc(12px + env(safe-area-inset-bottom))!important;
+    background:rgba(255,255,255,.98)!important;
+  }
+
+  .panel > label:last-of-type{
+    margin-bottom:6px!important;
+  }
+
+  .panel > input:last-of-type,
+  .panel > select:last-of-type{
+    margin-bottom:6px!important;
+  }
+
+  /* Keep hamburger above the drawer and easy to tap */
+  .menu-toggle{
+    z-index:1600!important;
+    background:#fff!important;
+    color:#246bfd!important;
+    border:1px solid #d8e2f0!important;
+  }
+
+  .menu-toggle .hamburger-lines span{
+    background:#246bfd!important;
+  }
+
+  .favorites-control,
+  .favorites-control .favorites-map-toggle{
+    width:50px!important;
+    height:50px!important;
+  }
+
+  .favorites-control .favorites-map-toggle{
+    min-width:50px!important;
+    min-height:50px!important;
+  }
+}
+
+/* Very small phones */
+@media(max-width:380px){
+  .panel{
+    width:96vw!important;
+    border-radius:18px 0 0 18px!important;
+  }
+}
+
+/* Fallback for browsers without dynamic viewport units */
+@supports not (height:100dvh){
+  @media(max-width:640px){
+    .panel{
+      height:100vh!important;
+      max-height:100vh!important;
+      min-height:100vh!important;
+    }
+  }
+}
+
 </style>
 </head>
 <body>
