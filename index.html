@@ -3603,13 +3603,11 @@ function invalidatePopupCache(id){popupCache.delete(String(id));}
 const passportAvailabilityCache=new Map();
 
 function passportCandidates(id){
-  const safeId=String(id).replace(/[^0-9A-Za-z_-]/g,'');
-  return [
-    `./pdf/${safeId}.pdf`,
-    `./pdf/${safeId}_1.pdf`,
-    `./passports/${safeId}.pdf`,
-    `./passports/${safeId}_1.pdf`
-  ];
+  const numericId=Number(id);
+  if(!Number.isInteger(numericId) || numericId<1001 || numericId>6006){
+    return [];
+  }
+  return [`./PDF/${numericId}.pdf`];
 }
 
 async function urlExists(url){
