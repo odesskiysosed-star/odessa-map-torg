@@ -3820,145 +3820,127 @@ function buildMarker(p){
     closeOnClick:false
   });
 
-  /* iPhone Safari / Android interaction:
-     - short tap opens the full card;
-     - long press shows the compact information tooltip;
-     - moving the finger cancels the long press. */
+  /* Unified Pointer Events interaction:
+     - short press opens the full card;
+     - long press shows compact information;
+     - dragging the map cancels both actions;
+     - synthetic Safari click is fully suppressed. */
   marker.off('click',marker._openPopup,marker);
+  marker.off('click');
 
-  let longPressTimer=null;
-  let longPressTriggered=false;
-  let touchStartX=0;
-  let touchStartY=0;
-  let touchMoved=false;
-  let ignoreNextClick=false;
+  let pressTimer=null;
+  let pointerId=null;
+  let startX=0;
+  let startY=0;
+  let moved=false;
+  let longPressed=false;
   const longPressDelay=600;
   const moveTolerance=12;
 
-  const clearLongPress=()=>{
-    if(longPressTimer){
-      clearTimeout(longPressTimer);
-      longPressTimer=null;
+  const clearPressTimer=()=>{
+    if(pressTimer){
+      clearTimeout(pressTimer);
+      pressTimer=null;
     }
   };
 
-  const showTouchPreview=()=>{
-    longPressTriggered=true;
-    ignoreNextClick=true;
-    suppressMapCloseUntil=Date.now()+900;
-    map.closePopup();
-
+  const closeOtherTooltips=()=>{
     for(const otherMarker of markerById.values()){
-      if(otherMarker!==marker) otherMarker.closeTooltip();
+      if(otherMarker!==marker)otherMarker.closeTooltip();
     }
+  };
 
+  const openObjectPopup=()=>{
+    suppressMapCloseUntil=Date.now()+1200;
+    activeTouchPreviewId=null;
+    closeOtherTooltips();
+    marker.closeTooltip();
+    marker.setPopupContent(popupHtml(p));
+    requestAnimationFrame(()=>{ marker.openPopup(); });
+  };
+
+  const openObjectPreview=()=>{
+    longPressed=true;
+    suppressMapCloseUntil=Date.now()+1200;
+    map.closePopup();
+    closeOtherTooltips();
     activeTouchPreviewId=id;
     marker.openTooltip();
-
-    if(navigator.vibrate){
-      navigator.vibrate(25);
-    }
+    if(navigator.vibrate)navigator.vibrate(25);
   };
 
   marker.on('add',()=>{
     const markerElement=marker.getElement();
-    if(!markerElement || markerElement.dataset.iosTouchReady==='1')return;
-
-    markerElement.dataset.iosTouchReady='1';
+    if(!markerElement || markerElement.dataset.pointerReady==='1')return;
+    markerElement.dataset.pointerReady='1';
     markerElement.style.touchAction='manipulation';
     markerElement.style.webkitTapHighlightColor='transparent';
+    markerElement.style.webkitUserSelect='none';
+    markerElement.style.userSelect='none';
 
-    markerElement.addEventListener('touchstart',(event)=>{
-      if(!event.touches || event.touches.length!==1)return;
-
-      const touch=event.touches[0];
-      touchStartX=touch.clientX;
-      touchStartY=touch.clientY;
-      touchMoved=false;
-      longPressTriggered=false;
-      ignoreNextClick=false;
-      clearLongPress();
-
-      longPressTimer=setTimeout(()=>{
-        if(!touchMoved)showTouchPreview();
-      },longPressDelay);
-    },{passive:true});
-
-    markerElement.addEventListener('touchmove',(event)=>{
-      if(!event.touches || event.touches.length!==1)return;
-      const touch=event.touches[0];
-      const dx=Math.abs(touch.clientX-touchStartX);
-      const dy=Math.abs(touch.clientY-touchStartY);
-
-      if(dx>moveTolerance || dy>moveTolerance){
-        touchMoved=true;
-        clearLongPress();
-      }
-    },{passive:true});
-
-    markerElement.addEventListener('touchend',(event)=>{
-      clearLongPress();
-
-      if(longPressTriggered){
-        event.preventDefault();
-        event.stopPropagation();
-        setTimeout(()=>{ ignoreNextClick=false; },450);
-        return;
-      }
-
-      if(touchMoved)return;
-
-      /* Safari may not emit Leaflet click reliably after a touch.
-         Open the popup directly on a clean short tap. */
+    const stopSyntheticEvent=(event)=>{
       event.preventDefault();
       event.stopPropagation();
       if(event.stopImmediatePropagation)event.stopImmediatePropagation();
+    };
 
-      ignoreNextClick=true;
-      suppressMapCloseUntil=Date.now()+900;
-      activeTouchPreviewId=null;
-      marker.closeTooltip();
-      marker.setPopupContent(popupHtml(p));
+    markerElement.addEventListener('click',stopSyntheticEvent,true);
+    markerElement.addEventListener('dblclick',stopSyntheticEvent,true);
 
-      /* Open after the current touch event finishes. This avoids the same
-         Safari event bubbling to the map and closing the popup immediately. */
-      requestAnimationFrame(()=>{
-        marker.openPopup();
-      });
+    markerElement.addEventListener('pointerdown',(event)=>{
+      if(event.isPrimary===false)return;
+      if(event.pointerType==='mouse' && event.button!==0)return;
+      pointerId=event.pointerId;
+      startX=event.clientX;
+      startY=event.clientY;
+      moved=false;
+      longPressed=false;
+      clearPressTimer();
+      pressTimer=setTimeout(()=>{
+        if(!moved && pointerId===event.pointerId)openObjectPreview();
+      },longPressDelay);
+    },{passive:true});
 
-      setTimeout(()=>{ ignoreNextClick=false; },700);
+    markerElement.addEventListener('pointermove',(event)=>{
+      if(pointerId!==event.pointerId)return;
+      const dx=Math.abs(event.clientX-startX);
+      const dy=Math.abs(event.clientY-startY);
+      if(dx>moveTolerance || dy>moveTolerance){
+        moved=true;
+        clearPressTimer();
+      }
+    },{passive:true});
+
+    markerElement.addEventListener('pointerup',(event)=>{
+      if(pointerId!==event.pointerId)return;
+      clearPressTimer();
+      pointerId=null;
+      if(moved){ moved=false; return; }
+      stopSyntheticEvent(event);
+      if(longPressed){
+        longPressed=false;
+        suppressMapCloseUntil=Date.now()+1200;
+        return;
+      }
+      openObjectPopup();
     },{passive:false});
 
-    markerElement.addEventListener('touchcancel',()=>{
-      touchMoved=true;
-      clearLongPress();
+    markerElement.addEventListener('pointercancel',()=>{
+      moved=true;
+      pointerId=null;
+      clearPressTimer();
+    },{passive:true});
+
+    markerElement.addEventListener('lostpointercapture',()=>{
+      pointerId=null;
+      clearPressTimer();
     },{passive:true});
 
     markerElement.addEventListener('contextmenu',(event)=>{
-      event.preventDefault();
-      event.stopPropagation();
-      clearLongPress();
-      showTouchPreview();
-    });
-  });
-
-  marker.on('click',(e)=>{
-    if(ignoreNextClick){
-      if(e?.originalEvent){
-        L.DomEvent.stopPropagation(e.originalEvent);
-        L.DomEvent.preventDefault(e.originalEvent);
-      }
-      return;
-    }
-
-    marker.setPopupContent(popupHtml(p));
-    activeTouchPreviewId=null;
-    marker.closeTooltip();
-    marker.openPopup();
-
-    if(e?.originalEvent){
-      L.DomEvent.stopPropagation(e.originalEvent);
-    }
+      stopSyntheticEvent(event);
+      clearPressTimer();
+      openObjectPreview();
+    },{passive:false});
   });
 
   marker.on('popupopen',(event)=>{
@@ -3972,21 +3954,21 @@ function buildMarker(p){
   return marker;
 }
 map.on('click',(event)=>{
-  /* iOS Safari emits a delayed synthetic map click after touchend.
-     Ignore it briefly after opening a marker popup or long-press preview. */
-  if(Date.now()<suppressMapCloseUntil){
+  const originalTarget=event?.originalEvent?.target;
+  if(
+    Date.now()<suppressMapCloseUntil ||
+    originalTarget?.closest?.('.leaflet-marker-icon, .leaflet-popup, .leaflet-tooltip')
+  ){
     if(event?.originalEvent){
       L.DomEvent.stopPropagation(event.originalEvent);
       L.DomEvent.preventDefault(event.originalEvent);
     }
     return;
   }
-
   if(activeTouchPreviewId!==null){
-    for(const marker of markerById.values()) marker.closeTooltip();
+    for(const currentMarker of markerById.values())currentMarker.closeTooltip();
     activeTouchPreviewId=null;
   }
-
   map.closePopup();
 });
 
