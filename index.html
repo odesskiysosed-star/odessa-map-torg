@@ -3762,6 +3762,7 @@ function popupHtml(p){
 }
 const markerById=new Map();
 let activeTouchPreviewId=null;
+let suppressMapCloseUntil=0;
 let renderToken=0;
 function showMapLoading(show){
   document.getElementById('mapLoadingBadge').classList.toggle('show',show);
@@ -3816,7 +3817,7 @@ function buildMarker(p){
     minWidth:300,
     closeButton:false,
     autoClose:true,
-    closeOnClick:true
+    closeOnClick:false
   });
 
   /* iPhone Safari / Android interaction:
@@ -3844,6 +3845,7 @@ function buildMarker(p){
   const showTouchPreview=()=>{
     longPressTriggered=true;
     ignoreNextClick=true;
+    suppressMapCloseUntil=Date.now()+900;
     map.closePopup();
 
     for(const otherMarker of markerById.values()){
@@ -3910,13 +3912,21 @@ function buildMarker(p){
          Open the popup directly on a clean short tap. */
       event.preventDefault();
       event.stopPropagation();
+      if(event.stopImmediatePropagation)event.stopImmediatePropagation();
+
       ignoreNextClick=true;
+      suppressMapCloseUntil=Date.now()+900;
       activeTouchPreviewId=null;
       marker.closeTooltip();
       marker.setPopupContent(popupHtml(p));
-      marker.openPopup();
 
-      setTimeout(()=>{ ignoreNextClick=false; },450);
+      /* Open after the current touch event finishes. This avoids the same
+         Safari event bubbling to the map and closing the popup immediately. */
+      requestAnimationFrame(()=>{
+        marker.openPopup();
+      });
+
+      setTimeout(()=>{ ignoreNextClick=false; },700);
     },{passive:false});
 
     markerElement.addEventListener('touchcancel',()=>{
@@ -3961,11 +3971,23 @@ function buildMarker(p){
   markerById.set(id,marker);
   return marker;
 }
-map.on('click',()=>{
+map.on('click',(event)=>{
+  /* iOS Safari emits a delayed synthetic map click after touchend.
+     Ignore it briefly after opening a marker popup or long-press preview. */
+  if(Date.now()<suppressMapCloseUntil){
+    if(event?.originalEvent){
+      L.DomEvent.stopPropagation(event.originalEvent);
+      L.DomEvent.preventDefault(event.originalEvent);
+    }
+    return;
+  }
+
   if(activeTouchPreviewId!==null){
     for(const marker of markerById.values()) marker.closeTooltip();
     activeTouchPreviewId=null;
   }
+
+  map.closePopup();
 });
 
 function render(list){
@@ -4007,7 +4029,7 @@ function applyFilters(){
   render(filtered);
   if(filtered.length>0) map.fitBounds(L.latLngBounds(filtered.map(p=>[p.lat,p.lon])).pad(0.08));
 }
-function resetFilters(){['filterContragent','filterKind','filterAddress','filterHouse','filterContract','filterFrom','filterTo','filterArea'].forEach(id=>document.getElementById(id).value='');favoritesOnly=false;updateFavoritesControls();map.on('click',()=>map.closePopup());
+function resetFilters(){['filterContragent','filterKind','filterAddress','filterHouse','filterContract','filterFrom','filterTo','filterArea'].forEach(id=>document.getElementById(id).value='');favoritesOnly=false;updateFavoritesControls();map.closePopup();
 
 function keepPopupClearOfControls(){
   if(window.innerWidth>640)return;
