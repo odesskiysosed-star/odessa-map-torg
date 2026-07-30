@@ -3819,14 +3819,20 @@ function buildMarker(p){
     closeOnClick:true
   });
 
-  /* Mobile interaction:
-     - normal tap opens the full object card;
-     - long press opens the compact photo/info preview. */
+  /* iPhone Safari / Android interaction:
+     - short tap opens the full card;
+     - long press shows the compact information tooltip;
+     - moving the finger cancels the long press. */
   marker.off('click',marker._openPopup,marker);
 
   let longPressTimer=null;
   let longPressTriggered=false;
-  const longPressDelay=520;
+  let touchStartX=0;
+  let touchStartY=0;
+  let touchMoved=false;
+  let ignoreNextClick=false;
+  const longPressDelay=600;
+  const moveTolerance=12;
 
   const clearLongPress=()=>{
     if(longPressTimer){
@@ -3835,44 +3841,99 @@ function buildMarker(p){
     }
   };
 
-  marker.on('touchstart',(e)=>{
-    const isTouchDevice=window.matchMedia('(hover:none), (pointer:coarse)').matches;
-    if(!isTouchDevice)return;
+  const showTouchPreview=()=>{
+    longPressTriggered=true;
+    ignoreNextClick=true;
+    map.closePopup();
 
-    longPressTriggered=false;
-    clearLongPress();
+    for(const otherMarker of markerById.values()){
+      if(otherMarker!==marker) otherMarker.closeTooltip();
+    }
 
-    longPressTimer=setTimeout(()=>{
-      longPressTriggered=true;
-      map.closePopup();
+    activeTouchPreviewId=id;
+    marker.openTooltip();
 
-      for(const otherMarker of markerById.values()){
-        if(otherMarker!==marker) otherMarker.closeTooltip();
+    if(navigator.vibrate){
+      navigator.vibrate(25);
+    }
+  };
+
+  marker.on('add',()=>{
+    const markerElement=marker.getElement();
+    if(!markerElement || markerElement.dataset.iosTouchReady==='1')return;
+
+    markerElement.dataset.iosTouchReady='1';
+    markerElement.style.touchAction='manipulation';
+    markerElement.style.webkitTapHighlightColor='transparent';
+
+    markerElement.addEventListener('touchstart',(event)=>{
+      if(!event.touches || event.touches.length!==1)return;
+
+      const touch=event.touches[0];
+      touchStartX=touch.clientX;
+      touchStartY=touch.clientY;
+      touchMoved=false;
+      longPressTriggered=false;
+      ignoreNextClick=false;
+      clearLongPress();
+
+      longPressTimer=setTimeout(()=>{
+        if(!touchMoved)showTouchPreview();
+      },longPressDelay);
+    },{passive:true});
+
+    markerElement.addEventListener('touchmove',(event)=>{
+      if(!event.touches || event.touches.length!==1)return;
+      const touch=event.touches[0];
+      const dx=Math.abs(touch.clientX-touchStartX);
+      const dy=Math.abs(touch.clientY-touchStartY);
+
+      if(dx>moveTolerance || dy>moveTolerance){
+        touchMoved=true;
+        clearLongPress();
+      }
+    },{passive:true});
+
+    markerElement.addEventListener('touchend',(event)=>{
+      clearLongPress();
+
+      if(longPressTriggered){
+        event.preventDefault();
+        event.stopPropagation();
+        setTimeout(()=>{ ignoreNextClick=false; },450);
+        return;
       }
 
-      activeTouchPreviewId=id;
-      marker.openTooltip();
+      if(touchMoved)return;
 
-      if(e?.originalEvent){
-        L.DomEvent.stopPropagation(e.originalEvent);
-      }
+      /* Safari may not emit Leaflet click reliably after a touch.
+         Open the popup directly on a clean short tap. */
+      event.preventDefault();
+      event.stopPropagation();
+      ignoreNextClick=true;
+      activeTouchPreviewId=null;
+      marker.closeTooltip();
+      marker.setPopupContent(popupHtml(p));
+      marker.openPopup();
 
-      if(navigator.vibrate){
-        navigator.vibrate(25);
-      }
-    },longPressDelay);
+      setTimeout(()=>{ ignoreNextClick=false; },450);
+    },{passive:false});
+
+    markerElement.addEventListener('touchcancel',()=>{
+      touchMoved=true;
+      clearLongPress();
+    },{passive:true});
+
+    markerElement.addEventListener('contextmenu',(event)=>{
+      event.preventDefault();
+      event.stopPropagation();
+      clearLongPress();
+      showTouchPreview();
+    });
   });
 
-  marker.on('touchend',clearLongPress);
-  marker.on('touchcancel',clearLongPress);
-  marker.on('dragstart',clearLongPress);
-
   marker.on('click',(e)=>{
-    marker.setPopupContent(popupHtml(p));
-    const isTouchDevice=window.matchMedia('(hover:none), (pointer:coarse)').matches;
-
-    if(isTouchDevice && longPressTriggered){
-      longPressTriggered=false;
+    if(ignoreNextClick){
       if(e?.originalEvent){
         L.DomEvent.stopPropagation(e.originalEvent);
         L.DomEvent.preventDefault(e.originalEvent);
@@ -3880,6 +3941,7 @@ function buildMarker(p){
       return;
     }
 
+    marker.setPopupContent(popupHtml(p));
     activeTouchPreviewId=null;
     marker.closeTooltip();
     marker.openPopup();
